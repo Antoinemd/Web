@@ -1,0 +1,80 @@
+coucou içi patient.html
+
+<md-content class="md-padding">
+      <md-tabs md-border-bottom>
+
+            <md-tab>
+                <md-tab-body>
+                    <md-content class="md-padding","tab-content" layout="column">
+                            <div flex layout="row">
+                                <div class="titre" flex> Prénom            	</div>
+                                <div class="titre" flex> Nom               	</div>
+                                <div class="titre" flex> Sexe              	</div>
+                                <div class="titre" flex> Date de naissance	</div>
+                                <div class="titre" flex> ID_Patient       	</div>
+                                <div class="titre" flex> Assigner		 	</div>
+                                <div class="titre" flex> Supprimer		 	</div>
+                            </div>
+                    </md-content>
+
+                    <md-content class="md-padding","demo-tab","tab-content" layout="column">
+                        <div layout="column">
+                            <md-list ng-repeat="patient in ctrl.patNonAff" layout="column">
+                                <div flex layout="row">
+                                    <div class="content" flex>{{patient.prenom}}</div>
+                                    <div class="content" flex>{{patient.name}}  </div>
+                                    <div class="content" flex>{{patient.sexe}}  </div>
+                                    <div class="content" flex>{{patient.naiss}} </div>
+                                    <div class="content" flex>{{patient.id}}    </div>                                   
+
+                                </div>
+                                <md-divider ng-if="!$last"></md-divider>    
+                            </md-list-item>
+                        </div>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+      </md-tabs>
+  </md-content>
+
+
+
+<!-- test -->
+<table>
+	<tr>
+		<td>{{$ctrl.patNonAff.name | uppercase}} {{$ctrl.patNonAff.prenom}}</td>
+	</tr>
+
+	<!-- tableau qui est sensé s'afficher .. -->
+   <!--  <tr>
+        <th> Nom </th>
+        <th> Prénom </th>
+        <th> Sexe </th>
+        <th> Date de naissance </th>
+        <th> Id </th>
+        <th> Assigner </th>
+        <th> Supprimer <th>
+    </tr>
+    <tr class="itemsContainer" ng-repeat="patNonAff in $ctrl.patNonAff"> 
+        <td> {{patNonAff.name}} </td>
+        <td> {{patNonAff.prenom}} </td>
+        <td> {{patNonAff.sexe}} </td>
+        <td> {{patNonAff.naiss}} </td>
+        <td> {{patNonAff.id}} </td>
+        <td> <div class="image"> 
+                <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
+            </div>
+            
+             <md-button class="md-primary md-raised" id="btTest" ng-click="$ctrl.test()">Patate nonaf
+            </md-button>                
+            
+        </td>
+        <td> <div class="image"> 
+                <a href="#">  <img src="../../images/delete_32.png"/> </a>
+            </div>                
+        </td>
+
+
+    </tr>
+</table>
+ -->

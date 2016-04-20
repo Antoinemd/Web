@@ -1,0 +1,87 @@
+  
+  /* CSS de sidenav et content */
+md-sidenav  {
+  width: 300px;height:100%; /*Largeur du block sideNav*/
+  padding:20px;
+  background-color: #6bc7cc;
+}
+
+md-content {
+  background-color : #f0f5f5;
+  height:100%;
+  padding:20px;
+}
+  /**********************/
+  
+  /* CSS du menu côté sideNav */
+body { background-color:#333;
+}
+
+nav{
+  float: left; 
+  clear: both;
+  width: 60%; /*Largeur du block menu*/
+  margin: 10% auto;
+  background: #eee;
+  box-shadow:2px 2px 2px;
+  font-family: 'roboto', cursive;
+  font-size:24px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+nav li{
+  float: none; 
+  width: 100%;
+}
+
+nav li a{
+  display: block; 
+  width: 100%; 
+  padding: 20px; 
+  border-left: 5px solid; 
+  position: relative; 
+  z-index: 2;
+  text-decoration: none;
+  color: #444;
+  box-sizing: border-box;  
+  -moz-box-sizing: border-box;  
+  -webkit-box-sizing: border-box; 
+}
+  
+nav li a:hover{ border-bottom: 0px; color: #fff;}
+nav li:first-child a{ border-left: 10px solid #3498db; }
+nav li:nth-child(2) a{ border-left: 10px solid #ffd071; }
+nav li:nth-child(3) a{ border-left: 10px solid #f0776c; }
+nav li:last-child a{ border-left: 10px solid #1abc9c; }
+
+nav li a:after { 
+  content: "";
+  height: 100%; 
+  left: 0; 
+  top: 0; 
+  width: 0px;  
+  position: absolute; 
+  transition: all 0.3s ease 0s; 
+  -webkit-transition: all 0.3s ease 0s; 
+  z-index: -1;
+}
+nav li a:hover:after{ width: 100%; }
+nav li:first-child a:after{ background: #1C699C; }
+nav li:nth-child(2) a:after{ background: #B87A00; }
+nav li:nth-child(3) a:after{ background: #FF311F; }
+nav li:last-child a:after{ background: #149077; }
+
+
+
+
+
+
+
+
+/*********************************/
+/******************************************/

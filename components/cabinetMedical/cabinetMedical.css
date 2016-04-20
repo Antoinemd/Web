@@ -1,0 +1,60 @@
+.listeInfirmiers {
+
+
+}
+
+h1 {
+	font-family: Ubuntu Medium;
+	color: #404040;
+}
+
+h2 > span {
+	font-family: Ubuntu Medium;
+}
+
+div {
+	font-family: Ubuntu;
+}
+
+
+.content{
+	text-align: center;
+}
+
+.titre{
+	color: grey;
+	font-style: italic;
+	text-align: center;
+	font-family: Ubuntu Mono;
+
+}
+
+th, td {
+    height: 50px;
+    vertical-align: middle;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.rowInf{
+	vertical-align: top;
+}
+
+tr.rowPat:hover {background-color: #f5f5f5}
+
+th.itemsContainer {
+    background:none; 
+    float:center;
+    position:relative
+}
+
+.itemsContainer:hover .image{display:block}
+.image{
+  position : right;
+    display:none;
+    top:20%; 
+    width:40px;
+    margin:0 auto; left:0px;
+    right:0px;
+    z-index:100
+} 

@@ -1,0 +1,109 @@
+  <md-toolbar >
+    <div class="md-toolbar-tools">
+
+      <h2>
+        <span> Ajouter un patient </span>
+      </h2>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+
+
+<form name="AjouterPatient" ng-submit="$ctrl.submitPatient()" ng-cloak>
+	<md-content layout-sm="row" layout-padding>
+	  	<div>
+	  		<md-input-container>
+				<label>Nom</label>
+				<input name="nom" type="text" ng-model="$ctrl.newPatient.patientName" required>
+			</md-input-container>
+
+			<md-input-container>
+				<label>Prénom</label>
+				<input type="text" ng-model="$ctrl.newPatient.patientForname">
+			</md-input-container>
+		</div>
+
+		<div>
+			<md-input-container>
+				    <md-radio-group ng-model="$ctrl.newPatient.patientSex">
+				      <md-radio-button value="F"> F 		</md-radio-button>
+				      <md-radio-button value="H"> H 		</md-radio-button>
+				      <md-radio-button value="Autre"> Autre </md-radio-button>
+				    </md-radio-group>
+			</md-input-container>
+		</div>
+		
+		<div>
+			<md-input-container>
+				<label>Date de naissance</label>
+				<input type="text" ng-model="$ctrl.newPatient.patientBirthday">
+			</md-input-container>
+		</div>
+
+		<div>
+			<md-input-container>
+				<label>Numéro de sécurité sociale</label>
+				<input 	name="social" 
+						type="text" 
+						ng-model="$ctrl.newPatient.patientNumber" 
+						ng-pattern="/^[0-9]{15}$/" 
+						required>
+			</md-input-container>
+			<span class="nss">NSS composé de 15 chiffres</span>
+			<div ng-message="pattern","required"></div>
+		</div>
+
+		</div>
+			<label id="adresse"> Adresse: </label>
+		</div>
+
+		<div>
+			<md-input-container>
+				<label>Etage</label>
+				<input type="text" ng-model="$ctrl.newPatient.patientFloor">		
+			</md-input-container>
+
+			<md-input-container>
+				<label>Numéro</label>
+				<input type="text "ng-model="$ctrl.newPatient.patientStreetNumber">
+			</md-input-container>
+
+			<md-input-container>
+				<label>Rue</label>
+				<input type="text" ng-model="$ctrl.newPatient.patientStreet">
+			</md-input-container>
+		</div>
+
+		<div>
+			<md-input-container>
+				<label>Ville</label>
+				<input type="text" ng-model="$ctrl.newPatient.patientCity">
+			</md-input-container>
+
+			<md-input-container>
+				<label>Code Postal</label>
+				<input type="text" ng-model="$ctrl.newPatient.postalCode">
+			</md-input-container>
+		</div>
+
+		<div>
+			<md-button class="md-raised md-primary" 
+						id="btAddPatient" 
+						ng-click="$ctrl.submitPatient()">Ajouter ce patient 
+			</md-button> 
+
+
+                 <md-button class="md-primary md-raised" id="btTest" ng-click="$ctrl.test()">Patate nonaf
+                </md-button>                
+                
+
+                
+		</div>
+	</md-content>
+</form>
+
+
+<md-input-container>
+	<label>Numéro de l'infirmier</label>
+	<input id="patientPostalCode" ng-model="$ctrl.patient.nurseNumber">
+</md-input-container>

@@ -1,0 +1,92 @@
+<!-- Fichier template qui sert à définir le contenu qui sera remplacé -->
+
+<!-- <h1>{{$ctrl.titre}}</h1> -->
+
+
+<!-- <h1>Interface secrétaire</h1>
+
+sur cette page il faut encore implémenter les fonctions <br/>
+- affecter des patients à des infirmiers <br/>
+- de créer de nouveaux patients <br/>
+
+
+<div>
+<h3> Patients affectés aux infirmiers:</h3>
+
+<section id="patientsAffectes">
+    <table>
+        <tr>
+            <th> prenom </th>
+            <th> nom </th>
+            <th> ID </th>
+            <th> Photographie <th>
+        </tr>
+
+        <tr ng-repeat="inf in $ctrl.inf">
+            
+            <td> {{inf.prenom}}</td>
+            <td> {{inf.name}} </td>
+            <td> {{inf.idInfirmier}}</td>
+            <td> <img ng-src="{{inf.photo}}" alt="photo"/></td>
+            <td> 
+                <table>
+                    <tr>
+                        <th> nom </th>
+                        <th> prénom </th>
+                        <th> sexe </th>
+                        <th> date de naissance </th>
+                        <th> id </th>
+                    </tr>
+                    <tr ng-repeat="patient in inf.patients"> 
+                        <td> {{patient.name}} </td>
+                        <td> {{patient.prenom}} </td>
+                        <td> {{patient.sexe}} </td>
+                        <td> {{patient.naiss}} </td>
+                        <td> {{patient.id}} </td>
+                    </tr>
+                </table>
+            </td>   
+        </tr>
+    </table>
+    <br/>
+</section>
+</div>
+
+<div>
+<h3>Patients restants</h3>
+<section id="PatientsRestants">
+    <table>
+        <tr>
+            <th> nom </th>
+            <th> prénom </th>
+            <th> sexe </th>
+            <th> date de naissance </th>
+            <th> id </th>
+        </tr>
+        <tr ng-repeat="patNonAff in $ctrl.patNonAff"> 
+            <td> {{patNonAff.name}} </td>
+            <td> {{patNonAff.prenom}} </td>
+            <td> {{patNonAff.sexe}} </td>
+            <td> {{patNonAff.naiss}} </td>
+            <td> {{patNonAff.id}} </td>
+        </tr>
+    </table>
+    <br/>
+</section>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div>
+<h3> Attribuer un infirmier  à un patient: </h3>
+<section id = ajouterPatient>
+    <button>Assigner un infirmier<br/>au patient</button>
+</section>
+ </div>   -->

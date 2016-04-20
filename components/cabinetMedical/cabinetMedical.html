@@ -1,0 +1,122 @@
+<h1>Interface secrétaire</h1>
+
+<div>
+
+
+<section id="patientsAffectes">
+
+
+  <md-toolbar >
+    <div class="md-toolbar-tools">
+
+      <h2>
+        <span>Gestion des infimiers </span>
+      </h2>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+
+
+<md-content class="md-padding">
+      <md-tabs md-selected="selectedIndex" md-border-bottom>
+
+            <md-tab ng-repeat="inf in $ctrl.inf" ng-disabled="tab.disabled"
+            label=" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}">
+
+                <md-tab-body>
+                    <md-content class="md-padding","demo-tab","tab-content" layout="column">
+                            <div flex layout="row">
+                                <div class="titre" flex>Prénom            </div>
+                                <div class="titre" flex>Nom               </div>
+                                <div class="titre" flex>Sexe              </div>
+                                <div class="titre" flex>Date de naissance </div>
+                                <div class="titre" flex>ID_Patient        </div>
+                            </div>
+                    </md-content>
+
+                    <md-content class="md-padding","demo-tab","tab-content" layout="column">
+                        <div layout="column">
+                            <md-list ng-repeat="patient in inf.patients" layout="column">
+                                <div flex layout="row">
+                                    <div class="content" flex>{{patient.prenom}}</div>
+                                    <div class="content" flex>{{patient.name}}  </div>
+                                    <div class="content" flex>{{patient.sexe}}  </div>
+                                    <div class="content" flex>{{patient.naiss}} </div>
+                                    <div class="content" flex>{{patient.id}}    </div>                                   
+
+                                </div>
+                                <md-divider ng-if="!$last"></md-divider>    
+                            </md-list-item>
+                        </div>
+                    </md-content>
+                </md-tab-body>
+            </md-tab>
+      </md-tabs>
+  </md-content>
+
+
+
+
+  <md-toolbar >
+    <div class="md-toolbar-tools">
+
+      <h2>
+        <span>Patients sans infirmiers</span>
+      </h2>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+
+
+  <div>
+  <!-- Affichage du tablea de patients non affectés -->
+    <cabinet-patient data:"ctrl.patNonAff"> </cabinet-patient>
+
+    <cabinet-nouveau-patient> </cabinet-nouveau-patient>  
+
+
+     <!-- <table>
+        <tr>
+            <th> Nom </th>
+            <th> Prénom </th>
+            <th> Sexe </th>
+            <th> Date de naissance </th>
+            <th> Id </th>
+            <th> Assigner<br/>infirmier </th>
+            <th> Supprimer<br/>patient </th>
+        </tr>
+        <tr class="itemsContainer" ng-repeat="patNonAff in $ctrl.patNonAff"> 
+            <td> {{patNonAff.name}} </td>
+            <td> {{patNonAff.prenom}} </td>
+            <td> {{patNonAff.sexe}} </td>
+            <td> {{patNonAff.naiss}} </td>
+            <td> {{patNonAff.id}} </td>
+            <td> <div class="image"> 
+                    <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
+                </div>
+                
+                 <md-button class="md-primary md-raised" id="btTest" ng-click="$ctrl.test()">Patate nonaf
+                </md-button>                
+                
+            </td>
+            <td> <div class="image"> 
+                    <a href="#">  <img src="../../images/delete_32.png"/> </a>
+                </div>                
+            </td>
+
+
+        </tr>
+    </table> -->
+
+      <br/>
+  </section>
+  </div>
+
+
+  <div>
+    <md-button class="md-primary md-raised" id="btnInfirmier" ng-click="$self.test()"  >
+      Assigner Infirmier
+    </md-button>
+  </div>
+
+</div>
