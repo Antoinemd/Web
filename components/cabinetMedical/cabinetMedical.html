@@ -12,10 +12,11 @@
 
         <div>
             <!-- Affichage du tablea de patients non affectés -->
-            <cabinet-patient data="$ctrl.data"></cabinet-patient>
+            <cabinet-patient data="$ctrl.data" on-validation="$ctrl.updateInfirmiers()"></cabinet-patient>
         </div>
+
         <div>
-            <cabinet-nouveau-patient data="$ctrl.data" on-validation="$ctrl.updateInfirmiers()"></cabinet-nouveau-patient>
+            <cabinet-nouveau-patient data="$ctrl.data"></cabinet-nouveau-patient>
         </div>
     </span>
                              
@@ -24,11 +25,3 @@
 </section>
 
 
-
-<div>
-    <md-button class="md-primary md-raised" id="btnInfirmier" ng-click="$self.test()">
-        Assigner Infirmier
-    </md-button>
-</div>
-
-</div> 

@@ -59807,39 +59807,26 @@
 	module.exports = function (moduleAngular) {
 
 	    var proxyNF = __webpack_require__(20)(moduleAngular);
+	    
 	    var controllerCabinetMedical = function (proxyNF) {
-
-	        // Cette fonction sera appelée pour instancier un cabinet
+	        
 	        var ctrl = this;
+
 	        proxyNF.getData(this.src).then(function (cabinetJS) {
-
-	            // ctrl.inf = cabinetJS.infirmiers;
-	            // ctrl.patNonAff = cabinetJS.patientsNonAffectes;
-	            ctrl.data = cabinetJS;
-
-	         
+	            ctrl.data = cabinetJS;         
 	        });
+
 
 	        // Mettre à jour les données
 	        this.updateInfirmiers = function() {
 	            proxyNF.getData(this.src).then( function(cabinetJS) {
 	            ctrl.data = cabinetJS;
-	            console.log("CabinetMedical.js => mise à jour des données");
+
+	            console.log(ctrl.data);
+	            console.log(cabinetJS);
+	            console.log("CabinetMedical.js => Données mises à jour !");
 	        });
 	        };
-
-
-	        this.affectectationPatient = function($data) {
-	            ctrl.affecterInfirmier ={
-	                "patient": $data,
-	                "infirmier": ctrl.ongletInfirmierActif
-	            }
-	            proxyNF.affecterPatient(ctrl.affecterInfirmier).then(
-	                function(){
-	                    console.log("cabinetMedical.js => drop de patient !");
-	                    ctrl.updateInfirmiers();
-	                });
-	        }
 
 
 	        this.test = function () {
@@ -59847,9 +59834,6 @@
 	        }
 
 	    }
-
-
-	    
 
 
 	    __webpack_require__(21)(moduleAngular);
@@ -59863,7 +59847,8 @@
 	        template: template,
 	        bindings: {
 	            titre: "@", // pour indiquer que la source est du texte 
-	            src: "@",
+	            src: "@"
+
 
 	        },
 	        controller: controllerCabinetMedical
@@ -59875,7 +59860,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<h1>Interface secrétaire</h1>\n\n\n   \n<section>\n\n\n    <span>\n        <div>\n            <cabinet-infirmier data=\"$ctrl.data\"></cabinet-infirmier>\n        </div>\n\n        <div>\n            <!-- Affichage du tablea de patients non affectés -->\n            <cabinet-patient data=\"$ctrl.data\"></cabinet-patient>\n        </div>\n        <div>\n            <cabinet-nouveau-patient data=\"$ctrl.data\" on-validation=\"$ctrl.updateInfirmiers()\"></cabinet-nouveau-patient>\n        </div>\n    </span>\n                             \n\n    </div><br/>\n</section>\n\n\n\n<div>\n    <md-button class=\"md-primary md-raised\" id=\"btnInfirmier\" ng-click=\"$self.test()\">\n        Assigner Infirmier\n    </md-button>\n</div>\n\n</div> "
+	module.exports = "<h1>Interface secrétaire</h1>\n\n\n   \n<section>\n\n\n    <span>\n        <div>\n            <cabinet-infirmier data=\"$ctrl.data\"></cabinet-infirmier>\n        </div>\n\n        <div>\n            <!-- Affichage du tablea de patients non affectés -->\n            <cabinet-patient data=\"$ctrl.data\" on-validation=\"$ctrl.updateInfirmiers()\"></cabinet-patient>\n        </div>\n\n        <div>\n            <cabinet-nouveau-patient data=\"$ctrl.data\"></cabinet-nouveau-patient>\n        </div>\n    </span>\n                             \n\n    </div><br/>\n</section>\n\n\n"
 
 /***/ },
 /* 18 */
@@ -60138,60 +60123,55 @@
 	        // console.log(ctrl.affecterInfirmier());
 
 
-	        this.save = function() {
-	            alert('Infirmier affecté !');
-	        };
-
-
-	        this.supprimer = function () {
-	            console.log("on delete un patient");
-	        }
-
-	        this.test = function(vartest){
-	            console.log("fonction de test:");
-	            console.log(vartest);
+	        // Ajouter un nouveau patient
+	        this.submitPatient = function () {
+	            console.log(ctrl.newPatient);
+	            proxyNF.addNewPatient(ctrl.newPatient).then( function(){
+	                ctrl.onValidation();
+	                alert('Patient créé ! Press F5');
+	            });
 	        }
 
 
-	        // Ajouter un nouveau patient  
-	        this.submitPatient = function(){
-	            console.log(ctrl.addNewPatient);
-	            proxyNF.addNewPatient(ctrl.addNewPatient).then(
-	                function(){
-	                    console.log("patient.js => test d'affectation");
-	                    // ctrl.onValidation();
-	                });
-	            // if(ctrl.check == true && ctrl.affecterInfirmier.infirmier!=="") {
-	            //     ctrl.affecterInfirmier.patient = ctrl.addNewPatient.patientNumber;
-	            //     proxyNF.affecterPatient(ctrl.affecterInfirmier).then(
-	            //     function(){
-	            //         console.log("patient.js => test d'affectation");
-	            //         console.log(ctrl.onValidation);
-	            //         ctrl.onValidation();
-	            //     });
-	            // }
-
-	        };
 
 
 
-	        // Mettre  à jour les données infirmiers
-	        this.updateInfirmiers = function() {
-	            proxyNF.getData(this.src).then( function(cabinetJS) {
-	            ctrl.data = cabinetJS;
-	            console.log("CabinetMedical.js => maj data terminées    ");
-	        });
-	        };
-
-
-	        this.assignerInfirmier = function () {
+	        this.submitInfirmier = function () {
 	            if (ctrl.affecterInfirmier.infirmier !== "") {
-
-	                // donner l'id du patient selectionné
-	                ctrl.affecterInfirmier.patient = ctrl.newPatient.patientNumber; // 
+	                ctrl.affecterInfirmier.patient = ctrl.newPatient.patientNumber;
 	                proxyNF.affecterPatient(ctrl.affecterInfirmier);
 	            }
 	        };
+
+
+	        // Remettre à "undefined" la valeur des champs du bloque assignation infirmier
+	        this.clearValue = function() {;
+	            console.log("raz des champs");
+	            ctrl.myModel = undefined;
+	        };
+
+
+	        // Prends la valeur des id patients & infirmier passé par le ng-model a la méthode affecterInfirmier
+	        this.assignerInfirmier = function () {
+	            
+	            
+	            if(ctrl.affecterInfirmier.infirmier!=="" && ctrl.affecterInfirmier.patient!=="") {
+
+	                // donner l'id du patient selectionné
+	                console.log("donnée envoyées au serveur:",ctrl.affecterInfirmier);
+
+	                // ctrl.affecterInfirmier.patient = ctrl.nouveauPatient.patientNumber;
+	               
+	                proxyNF.affecterPatient(ctrl.affecterInfirmier).then(function(){
+	                    
+	                    ctrl.onValidation();
+	                    alert('Patient Affecté ! Press F5');
+	                    });
+	                }
+	            
+	        };
+
+	            // Pas implémenté sur le serveur
 	        this.supprimerPatient = function(id) {
 	            console.log("patient supprimé");
 	            // var identifiant = {'patientNumber': id}
@@ -60210,9 +60190,8 @@
 	          // this.clearValue = function() {
 	          //   ctrl.myModel = undefined;
 	          //   };
-	            this.save = function() {
-	                alert('Form was valid!');
-	            };
+
+	            
 	    };
 
 	    
@@ -60223,7 +60202,7 @@
 	        'template': template,
 	        bindings: {
 	            data: "<",
-	            onValidation: "&"
+	            onValidation:"&"
 	        },
 	        'controller': controllerPatients
 	    });
@@ -60234,8 +60213,7 @@
 	        'template': templateFormulaire,
 	        bindings: {
 	            data: "<",
-	            // permet d'appeler la méthode dans le controleur du cabinetMedical
-	            onValidation: "&"
+	            // permet d'appeler une méthode dans patient.js depuis un autre controlleur
 	        },
 	        'controller': controllerPatients
 	    });
@@ -60245,13 +60223,13 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "    <md-toolbar>\n        <div class=\"md-toolbar-tools\">\n\n            <h2>\n                <span>Patients sans infirmiers</span>\n            </h2>\n            <span flex></span>\n        </div>\n    </md-toolbar>\n\n    <md-content class=\"md-padding\">\n    <md-tabs md-border-bottom md-no-ink-bar>\n        <md-tab>\n            <md-tab-body>                        \n                <div layout=\"column\" layout-wrap >        \n                    <div layout=\"row\" layout-align=\"space-between center\" flex>\n                        <div class=\"titre\" flex> Prénom           </div>\n                        <div class=\"titre\" flex> Nom              </div>\n                        <div class=\"titre\" flex> Sexe             </div>\n                        <div class=\"titre\" flex> Date de naissance</div>\n                        <div class=\"titre\" flex> ID_Patient       </div>\n                        <div class=\"titre\" flex> Assigner         </div>\n                        <div class=\"titre\" flex> Supprimer        </div>\n                    </div>            \n                    \n                    <div layout=\"row\" layout-align=\"space-around center\" flex\n                         ng-repeat=\"patient in $ctrl.data.patientsNonAffectes\">\n                        <md-list-item class=\"md-2-line\">\n                            <div flex>{{patient.prenom}}</div>\n                            <div flex>{{patient.name}}  </div>\n                            <div flex>{{patient.sexe}}  </div>\n                            <div flex>{{patient.naiss}} </div>\n                            <div flex>{{patient.id}}    </div> \n                            <div flex ng-model=\"$ctrl.affecterInfirmier.infirmier\"> \n                                <a href=\"\">\n                                    <img ng-click=\"$ctrl.test()\" src=\"../../images/add_inf.png\"/>\n                                    </a>\n                            </div>\n\n                            <div flex> <a href=\"\"><img ng-click=\"$ctrl.supprimerPatient(patient.id)\" \n                                                 src=\"../../images/delete_32.png\"/></a>\n                            </div>\n                            <md-divider ng-if=\"!$last\"></md-divider>\n                        </md-list-item>\n                    </div>\n                </div>\n            </md-tab-body>\n        </md-tab>\n  </md-tabs>\n</md-content>\n\n\n<div layout=\"column\" layout-align=\"start center\" style=\"min-height: 300px; max-width: 150px;\" ng-cloak>\n  <form name=\"myModel\">\n  <md-content>\n    <md-input-container class=\"md-block\">\n      <label>Choix de l'infirmier</label>\n        <md-select ng-model=\"$ctrl.affecterInfirmier.infirmier\">\n            <md-option ng-repeat=\"inf in $ctrl.data.infirmiers\" ng-value=\"inf.idInfirmier\">\n            {{ inf.name | uppercase }} {{ inf.prenom }}\n            </md-option>\n        </md-select>\n    <div class=\"errors\" ng-messages=\"myModel.myModel.$error\" ng-if=\"myModel.$dirty\">\n        <div ng-message=\"required\">Required</div>\n    </div>\n    </md-input-container>\n\n    <md-input-container class=\"md-block\">\n        <label>Choix du patient</label>\n        <md-select ng-model=\"$ctrl.affecterInfirmier.patient\">\n            <md-option ng-repeat=\"pat in $ctrl.data.patientsNonAffectes\" ng-value=\"pat.idInfirmier\">\n            {{ pat.name | uppercase }} {{ pat.prenom }}\n            </md-option>\n        </md-select>\n      <div class=\"errors\" ng-messages=\"myModel.myModel.$error\" ng-if=\"myModel.$dirty\">\n        <div ng-message=\"required\">Required</div>\n      </div>\n    </md-input-container>\n\n    <div layout=\"row\">\n<!-- <md-button ng-click=\"clearValue()\" ng-disabled=\"!myModel\" style=\"margin-right: 20px;\">Clear</md-button>  -->\n<md-button ng-click=\"$ctrl.save()\" ng-disabled=\"FormAssignation.$invalid\" class=\"md-primary\" layout layout-align=\"center end\">Save</md-button>\n    </div>\n    </md-content>\n  </form>\n</div> \n\n<!-- <span>\n<md-checkbox ng-model=\"$ctrl.check\">\n         Sélectionnez un infirmier\n    </md-checkbox>\n    <p>\n    <md-input-container ng-show=\"$ctrl.check == true\">\n        <label>Assignation d'un infirmier à un patient</label>\n        <md-select ng-model=\"$ctrl.affecterInfirmier.infirmier\">\n            <md-option ng-repeat=\"inf in $ctrl.data.infirmiers\" ng-value=\"inf.idInfirmier\">\n            {{ inf.name | uppercase }} {{ inf.prenom }}\n            </md-option>\n        <label>Sélectionner un patient</label>\n             <md-option ng-repeat=\"pat in $ctrl.data.patientsNonAffectes\" ng-value=\"pat.id\">\n            {{ pat.name | uppercase }} {{ pat.prenom }}\n            </md-option>\n        </md-select>\n    </md-input-container>\n    </p>\n   </span> -->\n<!-- <md-content>\n    \n    <table class=\"padding\">\n    <thead>\n        <tr>\n            <th><div class=\"titre\" flex> Prénom           </div></th>\n            <th><div class=\"titre\" flex> Nom              </div></th>\n            <th><div class=\"titre\" flex> Sexe             </div></th>\n            <th><div class=\"titre\" flex> Date de naissance</div></th>\n            <th><div class=\"titre\" flex> ID_Patient       </div></th>\n            <th><div class=\"titre\" flex> Assigner         </div></th>\n            <th><div class=\"titre\" flex> Supprimer        </div></th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr class=\"itemsContainer\" ng-repeat=\"patient in $ctrl.data\">\n\n            <td><div class=\"content\" flex>{{patient.prenom}}</div></td>\n            <td><div class=\"content\" flex>{{patient.name}}  </div></td>\n            <td><div class=\"content\" flex>{{patient.sexe}}  </div></td>\n            <td><div class=\"content\" flex>{{patient.naiss}} </div></td>\n            <td><div class=\"content\" flex>{{patient.id}}    </div></td>\n            <td><div class=\"image\"> \n                    <a href=\"\"> <img ng-click=\"$ctrl.test()\" src=\"../../images/add_inf.png\"/> </a>\n                </div>\n            </td>\n            <td><div class=\"image\"> \n                    <a href=\"\"> <img ng-click=\"$ctrl.supprimerPatient(patient.id)\" src=\"../../images/delete_32.png\"/></a>\n            </div>\n            </td>\n\n        </tr>\n    \n    </tbody>\n    </table>\n</md-content>"
+	module.exports = "    <md-toolbar>\n        <div class=\"md-toolbar-tools\">\n\n            <h2>\n                <span>Patients sans infirmiers</span>\n            </h2>\n            <span flex></span>\n        </div>\n    </md-toolbar>\n\n    <md-content class=\"md-padding\">\n    <md-tabs md-border-bottom md-no-ink-bar>\n        <md-tab>\n            <md-tab-body>                        \n                <div layout=\"column\" layout-wrap >        \n                    <div layout=\"row\" layout-align=\"space-between center\" flex>\n                        <div class=\"titre\" flex> Prénom           </div>\n                        <div class=\"titre\" flex> Nom              </div>\n                        <div class=\"titre\" flex> Sexe             </div>\n                        <div class=\"titre\" flex> Date de naissance</div>\n                        <div class=\"titre\" flex> ID_Patient       </div>\n               <!--          <div class=\"titre\" flex> Assigner         </div>\n                        <div class=\"titre\" flex> Supprimer        </div> -->\n                    </div>            \n                    \n                    <div layout=\"row\" layout-align=\"space-around center\" flex\n                         ng-repeat=\"patient in $ctrl.data.patientsNonAffectes\">\n                        <md-list-item class=\"md-2-line\">\n                            <div flex>{{patient.prenom}}</div>\n                            <div flex>{{patient.name}}  </div>\n                            <div flex>{{patient.sexe}}  </div>\n                            <div flex>{{patient.naiss}} </div>\n                            <div flex>{{patient.id}}    </div> \n                           <!--  <div flex ng-model=\"$ctrl.affecterInfirmier.infirmier\"> \n                                <a href=\"\">\n                                    <img ng-click=\"$ctrl.test()\" src=\"../../images/add_inf.png\"/>\n                                    </a>\n                            </div>\n\n                            <div flex> <a href=\"\"><img ng-click=\"$ctrl.supprimerPatient(patient.id)\" \n                                                 src=\"../../images/delete_32.png\"/></a>\n                            </div> -->\n                            <md-divider ng-if=\"!$last\"></md-divider>\n                        </md-list-item>\n                    </div>\n                </div>\n            </md-tab-body>\n        </md-tab>\n  </md-tabs>\n</md-content>\n\n\n<div layout=\"column\" layout-align=\"start center\" style=\"min-height: 200px; max-width: 600px;\" ng-cloak>\n  <form name=\"myModel\" ng-submit=\"$ctrl.assignerInfirmier()\">\n  <md-content>\n  <table>\n    <!-- Bloque de selection infirmier -->\n    <tr>\n    bug: dernier patient de la liste ne peut etre affecté .. + boutton clear marche pas\n        <td>\n            <md-input-container class=\"md-block\">\n                <label>Choix de l'infirmier</label>\n                <md-select ng-model=\"$ctrl.affecterInfirmier.infirmier\" required>\n                    <md-option ng-repeat=\"inf in $ctrl.data.infirmiers\" ng-value=\"inf.idInfirmier\">\n\n                    {{ inf.prenom }} {{ inf.name | uppercase }} \n\n                    </md-option>\n                </md-select>\n                <div class=\"errors\" ng-messages=\"myModel.myModel.$error\" ng-if=\"myModel.$dirty\">\n                    <div ng-message=\"required\">Required</div>\n                </div>\n            </md-input-container>\n        </td>\n        \n        <td>\n        <!-- Bloque de selection du patient -->\n        <md-input-container class=\"md-block\">\n            <label>Choix du patient</label>\n            <md-select ng-model=\"$ctrl.affecterInfirmier.patient\" required>\n\n            <!-- !!! bug dernier patient de la liste ne peut etre affecté .. -->\n                <md-option ng-repeat=\"pat in $ctrl.data.patientsNonAffectes\" ng-value=\"pat.id\">\n\n                {{ pat.prenom }} {{ pat.name | uppercase }}\n                \n                </md-option>\n            </md-select>\n            <div class=\"errors\" ng-messages=\"myModel.myModel.$error\" ng-if=\"myModel.$dirty\">\n                <div ng-message=\"required\">Required</div>\n            </div>\n        </md-input-container>\n        </td>\n        \n        <tr>\n            <td>\n                <div layout=\"row\">\n                    <md-button ng-click=\"$ctrl.clearValue()\" ng-disabled=\"!myModel\" style=\"margin-right: 20px;\">\n                    Clear</md-button>\n                    <md-button ng-click=\"$ctrl.assignerInfirmier()\" ng-disabled=\"myModel.$invalid\" class=\"md-primary\" layout layout-align=\"center end\">Assigner</md-button>\n                </div>\n            </td>\n        </tr>\n    </tr>\n    </table>\n    </md-content>\n    </form>\n</div> \n\n<!-- <span>\n<md-checkbox ng-model=\"$ctrl.check\">\n         Sélectionnez un infirmier\n    </md-checkbox>\n    <p>\n    <md-input-container ng-show=\"$ctrl.check == true\">\n        <label>Assignation d'un infirmier à un patient</label>\n        <md-select ng-model=\"$ctrl.affecterInfirmier.infirmier\">\n            <md-option ng-repeat=\"inf in $ctrl.data.infirmiers\" ng-value=\"inf.idInfirmier\">\n            {{ inf.name | uppercase }} {{ inf.prenom }}\n            </md-option>\n        <label>Sélectionner un patient</label>\n             <md-option ng-repeat=\"pat in $ctrl.data.patientsNonAffectes\" ng-value=\"pat.id\">\n            {{ pat.name | uppercase }} {{ pat.prenom }}\n            </md-option>\n        </md-select>\n    </md-input-container>\n    </p>\n   </span> -->\n<!-- <md-content>\n    \n    <table class=\"padding\">\n    <thead>\n        <tr>\n            <th><div class=\"titre\" flex> Prénom           </div></th>\n            <th><div class=\"titre\" flex> Nom              </div></th>\n            <th><div class=\"titre\" flex> Sexe             </div></th>\n            <th><div class=\"titre\" flex> Date de naissance</div></th>\n            <th><div class=\"titre\" flex> ID_Patient       </div></th>\n            <th><div class=\"titre\" flex> Assigner         </div></th>\n            <th><div class=\"titre\" flex> Supprimer        </div></th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr class=\"itemsContainer\" ng-repeat=\"patient in $ctrl.data\">\n\n            <td><div class=\"content\" flex>{{patient.prenom}}</div></td>\n            <td><div class=\"content\" flex>{{patient.name}}  </div></td>\n            <td><div class=\"content\" flex>{{patient.sexe}}  </div></td>\n            <td><div class=\"content\" flex>{{patient.naiss}} </div></td>\n            <td><div class=\"content\" flex>{{patient.id}}    </div></td>\n            <td><div class=\"image\"> \n                    <a href=\"\"> <img ng-click=\"$ctrl.test()\" src=\"../../images/add_inf.png\"/> </a>\n                </div>\n            </td>\n            <td><div class=\"image\"> \n                    <a href=\"\"> <img ng-click=\"$ctrl.supprimerPatient(patient.id)\" src=\"../../images/delete_32.png\"/></a>\n            </div>\n            </td>\n\n        </tr>\n    \n    </tbody>\n    </table>\n</md-content>"
 
 /***/ },
 /* 26 */
 /***/ function(module, exports) {
 
-	module.exports = "  <md-toolbar >\n    <div class=\"md-toolbar-tools\">\n\n      <h2>\n        <span> Ajouter un patient </span>\n      </h2>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n\n\n<form name=\"AjouterPatient\" ng-submit=\"$ctrl.submitPatient()\" ng-cloak>\n\t<md-content layout-sm=\"row\" layout-padding>\n\t  \t<div>\n\t  \t\t<md-input-container>\n\t\t\t\t<label>Nom</label>\n\t\t\t\t<input name=\"nom\" type=\"text\" ng-model=\"$ctrl.newPatient.patientName\" required>\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Prénom</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientForname\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t    <md-radio-group ng-model=\"$ctrl.newPatient.patientSex\">\n\t\t\t\t      <md-radio-button value=\"F\"> F \t\t</md-radio-button>\n\t\t\t\t      <md-radio-button value=\"H\"> H \t\t</md-radio-button>\n\t\t\t\t      <md-radio-button value=\"Autre\"> Autre </md-radio-button>\n\t\t\t\t    </md-radio-group>\n\t\t\t</md-input-container>\n\t\t</div>\n\t\t\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Date de naissance</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientBirthday\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Numéro de sécurité sociale</label>\n\t\t\t\t<input \tname=\"social\" \n\t\t\t\t\t\ttype=\"text\" \n\t\t\t\t\t\tng-model=\"$ctrl.newPatient.patientNumber\" \n\t\t\t\t\t\tng-pattern=\"/^[0-9]{15}$/\" \n\t\t\t\t\t\trequired>\n\t\t\t</md-input-container>\n\t\t\t<span class=\"nss\">NSS composé de 15 chiffres</span>\n\t\t\t<div ng-message=\"pattern\",\"required\"></div>\n\t\t</div>\n\n\t\t</div>\n\t\t\t<label id=\"adresse\"> Adresse: </label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Etage</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientFloor\">\t\t\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Numéro</label>\n\t\t\t\t<input type=\"text \"ng-model=\"$ctrl.newPatient.patientStreetNumber\">\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Rue</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientStreet\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Ville</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientCity\">\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Code Postal</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.postalCode\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-button class=\"md-raised md-primary\" \n\t\t\t\t\t\tid=\"btAddPatient\" \n\t\t\t\t\t\tng-click=\"$ctrl.submitPatient()\">Ajouter ce patient \n\t\t\t</md-button> \n\n\n                 <md-button class=\"md-primary md-raised\" id=\"btTest\" ng-click=\"$ctrl.test()\">Patate nonaf\n                </md-button>                \n                 \n\t\t</div>\n\t</md-content>\n</form>\n\n"
+	module.exports = "  <md-toolbar >\n    <div class=\"md-toolbar-tools\">\n\n      <h2>\n        <span> Ajouter un patient </span>\n      </h2>\n      <span flex></span>\n    </div>\n  </md-toolbar>\n\n\n<form name=\"AjouterPatient\" ng-submit=\"$ctrl.submitPatient()\" ng-cloak>\n\t<md-content layout-sm=\"row\" layout-padding>\n\t  \t<div>\n\t  \t\t<md-input-container>\n\t\t\t\t<label>Nom</label>\n\t\t\t\t<input name=\"nom\" type=\"text\" ng-model=\"$ctrl.newPatient.patientName\" required>\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Prénom</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientForname\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t    <md-radio-group ng-model=\"$ctrl.newPatient.patientSex\">\n\t\t\t\t      <md-radio-button value=\"F\"> F \t\t</md-radio-button>\n\t\t\t\t      <md-radio-button value=\"H\"> H \t\t</md-radio-button>\n\t\t\t\t      <md-radio-button value=\"Autre\"> Autre </md-radio-button>\n\t\t\t\t    </md-radio-group>\n\t\t\t</md-input-container>\n\t\t</div>\n\t\t\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Date de naissance</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientBirthday\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Numéro de sécurité sociale</label>\n\t\t\t\t<input \tname=\"social\" \n\t\t\t\t\t\ttype=\"text\" \n\t\t\t\t\t\tng-model=\"$ctrl.newPatient.patientNumber\" \n\t\t\t\t\t\tng-pattern=\"/^[0-9]{15}$/\" \n\t\t\t\t\t\trequired>\n\t\t\t</md-input-container>\n\t\t\t<span class=\"nss\">NSS composé de 15 chiffres</span>\n\t\t\t<div ng-message=\"pattern\",\"required\"></div>\n\t\t</div>\n\n\t\t</div>\n\t\t\t<label id=\"adresse\"> Adresse: </label>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Etage</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientFloor\">\t\t\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Numéro</label>\n\t\t\t\t<input type=\"text \"ng-model=\"$ctrl.newPatient.patientStreetNumber\">\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Rue</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientStreet\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-input-container>\n\t\t\t\t<label>Ville</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.patientCity\">\n\t\t\t</md-input-container>\n\n\t\t\t<md-input-container>\n\t\t\t\t<label>Code Postal</label>\n\t\t\t\t<input type=\"text\" ng-model=\"$ctrl.newPatient.postalCode\">\n\t\t\t</md-input-container>\n\t\t</div>\n\n\t\t<div>\n\t\t\t<md-button class=\"md-raised md-primary\" \n\t\t\t\t\t\tid=\"btAddPatient\" \n\t\t\t\t\t\tng-click=\"$ctrl.submitPatient()\">Ajouter ce patient \n\t\t\t</md-button>  \n                 \n\t\t</div>\n\t</md-content>\n</form>\n\n"
 
 /***/ },
 /* 27 */
@@ -60298,7 +60276,7 @@
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "<md-toolbar>\n    <div class=\"md-toolbar-tools\">\n        <h2>\n            <span>Gestion des infimiers </span>\n        </h2>\n        <span flex></span>\n    </div>\n</md-toolbar>\n\n\n        <md-content class=class=\"md-padding\",\"demo-tab\",\"tab-content\">\n          <md-tabs md-selected=\"selectedIndex\" md-border-bottom>\n\n                <md-tab ng-repeat=\"inf in $ctrl.data.infirmiers\" ng-disabled=\"tab.disabled\"\n                    label=\" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}\">\n\n                    <md-tab-body>                        \n                        <div layout=\"column\" layout-wrap >        \n                            <div layout=\"row\" layout-align=\"space-between center\" layout-wrap>\n                                <div flex class=\"titre\" >Prénom</div>\n                                <div flex class=\"titre\" >Nom</div>\n                                <div flex class=\"titre\" >Sexe</div>\n                                <div flex class=\"titre\" >Date de naissance</div>\n                                <div flex class=\"titre\" >ID_Patient</div>\n                            </div>\n\n                            <div layout=\"row\" layout-align=\"space-around center\" layout-wrap ng-repeat=\"patient in inf.patients\">\n                                <md-list-item class=\"md-2-line\">\n                                    <div flex>{{patient.prenom}}</div>\n                                    <div flex>{{patient.name}}  </div>\n                                    <div flex>{{patient.sexe}}  </div>\n                                    <div flex>{{patient.naiss}} </div>\n                                    <div flex>{{patient.id}}    </div>                                   \n                                    <md-divider ng-if=\"!$last\"></md-divider>    \n                                </md-list-item>\n                            </div>\n                        </div>\n                    </md-tab-body>\n                </md-tab>\n          </md-tabs>\n      </md-content>\n</section>\n\n"
+	module.exports = "<md-toolbar>\n    <div class=\"md-toolbar-tools\">\n        <h2>\n            <span>Gestion des infimiers </span>\n        </h2>\n        <span flex></span>\n    </div>\n</md-toolbar>\n\n\n        <md-content class=\"md-padding\",\"demo-tab\",\"tab-content\">\n          <md-tabs md-selected=\"selectedIndex\" md-border-bottom>\n\n                <md-tab ng-repeat=\"inf in $ctrl.data.infirmiers\" ng-disabled=\"tab.disabled\"\n                    label=\" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}\">\n\n                    <md-tab-body>                        \n                        <div layout=\"column\" layout-wrap >        \n                            <div layout=\"row\" layout-align=\"space-between center\" layout-wrap>\n                                <div flex class=\"titre\" >Prénom</div>\n                                <div flex class=\"titre\" >Nom</div>\n                                <div flex class=\"titre\" >Sexe</div>\n                                <div flex class=\"titre\" >Date de naissance</div>\n                                <div flex class=\"titre\" >ID_Patient</div>\n                            </div>\n\n                            <div layout=\"row\" layout-align=\"space-around center\" layout-wrap ng-repeat=\"patient in inf.patients\">\n                                <md-list-item class=\"md-2-line\">\n                                    <div flex>{{patient.prenom}}</div>\n                                    <div flex>{{patient.name}}  </div>\n                                    <div flex>{{patient.sexe}}  </div>\n                                    <div flex>{{patient.naiss}} </div>\n                                    <div flex>{{patient.id}}    </div>                                   \n                                    <md-divider ng-if=\"!$last\"></md-divider>    \n                                </md-list-item>\n                            </div>\n                        </div>\n                    </md-tab-body>\n                </md-tab>\n          </md-tabs>\n      </md-content>\n</section>\n\n"
 
 /***/ },
 /* 33 */

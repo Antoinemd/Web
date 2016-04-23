@@ -44,60 +44,55 @@ module.exports = function (moduleAngular) {
         // console.log(ctrl.affecterInfirmier());
 
 
-        this.save = function() {
-            alert('Infirmier affecté !');
-        };
-
-
-        this.supprimer = function () {
-            console.log("on delete un patient");
-        }
-
-        this.test = function(vartest){
-            console.log("fonction de test:");
-            console.log(vartest);
+        // Ajouter un nouveau patient
+        this.submitPatient = function () {
+            console.log(ctrl.newPatient);
+            proxyNF.addNewPatient(ctrl.newPatient).then( function(){
+                ctrl.onValidation();
+                alert('Patient créé ! Press F5');
+            });
         }
 
 
-        // Ajouter un nouveau patient  
-        this.submitPatient = function(){
-            console.log(ctrl.addNewPatient);
-            proxyNF.addNewPatient(ctrl.addNewPatient).then(
-                function(){
-                    console.log("patient.js => test d'affectation");
-                    // ctrl.onValidation();
-                });
-            // if(ctrl.check == true && ctrl.affecterInfirmier.infirmier!=="") {
-            //     ctrl.affecterInfirmier.patient = ctrl.addNewPatient.patientNumber;
-            //     proxyNF.affecterPatient(ctrl.affecterInfirmier).then(
-            //     function(){
-            //         console.log("patient.js => test d'affectation");
-            //         console.log(ctrl.onValidation);
-            //         ctrl.onValidation();
-            //     });
-            // }
-
-        };
 
 
 
-        // Mettre  à jour les données infirmiers
-        this.updateInfirmiers = function() {
-            proxyNF.getData(this.src).then( function(cabinetJS) {
-            ctrl.data = cabinetJS;
-            console.log("CabinetMedical.js => maj data terminées    ");
-        });
-        };
-
-
-        this.assignerInfirmier = function () {
+        this.submitInfirmier = function () {
             if (ctrl.affecterInfirmier.infirmier !== "") {
-
-                // donner l'id du patient selectionné
-                ctrl.affecterInfirmier.patient = ctrl.newPatient.patientNumber; // 
+                ctrl.affecterInfirmier.patient = ctrl.newPatient.patientNumber;
                 proxyNF.affecterPatient(ctrl.affecterInfirmier);
             }
         };
+
+
+        // Remettre à "undefined" la valeur des champs du bloque assignation infirmier
+        this.clearValue = function() {;
+            console.log("raz des champs");
+            ctrl.myModel = undefined;
+        };
+
+
+        // Prends la valeur des id patients & infirmier passé par le ng-model a la méthode affecterInfirmier
+        this.assignerInfirmier = function () {
+            
+            
+            if(ctrl.affecterInfirmier.infirmier!=="" && ctrl.affecterInfirmier.patient!=="") {
+
+                // donner l'id du patient selectionné
+                console.log("donnée envoyées au serveur:",ctrl.affecterInfirmier);
+
+                // ctrl.affecterInfirmier.patient = ctrl.nouveauPatient.patientNumber;
+               
+                proxyNF.affecterPatient(ctrl.affecterInfirmier).then(function(){
+                    
+                    ctrl.onValidation();
+                    alert('Patient Affecté ! Press F5');
+                    });
+                }
+            
+        };
+
+            // Pas implémenté sur le serveur
         this.supprimerPatient = function(id) {
             console.log("patient supprimé");
             // var identifiant = {'patientNumber': id}
@@ -116,9 +111,8 @@ module.exports = function (moduleAngular) {
           // this.clearValue = function() {
           //   ctrl.myModel = undefined;
           //   };
-            this.save = function() {
-                alert('Form was valid!');
-            };
+
+            
     };
 
     
@@ -129,7 +123,7 @@ module.exports = function (moduleAngular) {
         'template': template,
         bindings: {
             data: "<",
-            onValidation: "&"
+            onValidation:"&"
         },
         'controller': controllerPatients
     });
@@ -140,8 +134,7 @@ module.exports = function (moduleAngular) {
         'template': templateFormulaire,
         bindings: {
             data: "<",
-            // permet d'appeler la méthode dans le controleur du cabinetMedical
-            onValidation: "&"
+            // permet d'appeler une méthode dans patient.js depuis un autre controlleur
         },
         'controller': controllerPatients
     });

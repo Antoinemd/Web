@@ -19,8 +19,8 @@
                         <div class="titre" flex> Sexe             </div>
                         <div class="titre" flex> Date de naissance</div>
                         <div class="titre" flex> ID_Patient       </div>
-                        <div class="titre" flex> Assigner         </div>
-                        <div class="titre" flex> Supprimer        </div>
+               <!--          <div class="titre" flex> Assigner         </div>
+                        <div class="titre" flex> Supprimer        </div> -->
                     </div>            
                     
                     <div layout="row" layout-align="space-around center" flex
@@ -31,7 +31,7 @@
                             <div flex>{{patient.sexe}}  </div>
                             <div flex>{{patient.naiss}} </div>
                             <div flex>{{patient.id}}    </div> 
-                            <div flex ng-model="$ctrl.affecterInfirmier.infirmier"> 
+                           <!--  <div flex ng-model="$ctrl.affecterInfirmier.infirmier"> 
                                 <a href="">
                                     <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/>
                                     </a>
@@ -39,7 +39,7 @@
 
                             <div flex> <a href=""><img ng-click="$ctrl.supprimerPatient(patient.id)" 
                                                  src="../../images/delete_32.png"/></a>
-                            </div>
+                            </div> -->
                             <md-divider ng-if="!$last"></md-divider>
                         </md-list-item>
                     </div>
@@ -50,39 +50,61 @@
 </md-content>
 
 
-<div layout="column" layout-align="start center" style="min-height: 300px; max-width: 150px;" ng-cloak>
-  <form name="myModel">
+<div layout="column" layout-align="start center" style="min-height: 200px; max-width: 600px;" ng-cloak>
+  <form name="myModel" ng-submit="$ctrl.assignerInfirmier()">
   <md-content>
-    <md-input-container class="md-block">
-      <label>Choix de l'infirmier</label>
-        <md-select ng-model="$ctrl.affecterInfirmier.infirmier">
-            <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
-            {{ inf.name | uppercase }} {{ inf.prenom }}
-            </md-option>
-        </md-select>
-    <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
-        <div ng-message="required">Required</div>
-    </div>
-    </md-input-container>
+  <table>
+    <!-- Bloque de selection infirmier -->
+    <tr>
+    bug: dernier patient de la liste ne peut etre affecté .. + boutton clear marche pas
+        <td>
+            <md-input-container class="md-block">
+                <label>Choix de l'infirmier</label>
+                <md-select ng-model="$ctrl.affecterInfirmier.infirmier" required>
+                    <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
 
-    <md-input-container class="md-block">
-        <label>Choix du patient</label>
-        <md-select ng-model="$ctrl.affecterInfirmier.patient">
-            <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.idInfirmier">
-            {{ pat.name | uppercase }} {{ pat.prenom }}
-            </md-option>
-        </md-select>
-      <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
-        <div ng-message="required">Required</div>
-      </div>
-    </md-input-container>
+                    {{ inf.prenom }} {{ inf.name | uppercase }} 
 
-    <div layout="row">
-<!-- <md-button ng-click="clearValue()" ng-disabled="!myModel" style="margin-right: 20px;">Clear</md-button>  -->
-<md-button ng-click="$ctrl.save()" ng-disabled="FormAssignation.$invalid" class="md-primary" layout layout-align="center end">Save</md-button>
-    </div>
+                    </md-option>
+                </md-select>
+                <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+        </td>
+        
+        <td>
+        <!-- Bloque de selection du patient -->
+        <md-input-container class="md-block">
+            <label>Choix du patient</label>
+            <md-select ng-model="$ctrl.affecterInfirmier.patient" required>
+
+            <!-- !!! bug dernier patient de la liste ne peut etre affecté .. -->
+                <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.id">
+
+                {{ pat.prenom }} {{ pat.name | uppercase }}
+                
+                </md-option>
+            </md-select>
+            <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
+                <div ng-message="required">Required</div>
+            </div>
+        </md-input-container>
+        </td>
+        
+        <tr>
+            <td>
+                <div layout="row">
+                    <md-button ng-click="$ctrl.clearValue()" ng-disabled="!myModel" style="margin-right: 20px;">
+                    Clear</md-button>
+                    <md-button ng-click="$ctrl.assignerInfirmier()" ng-disabled="myModel.$invalid" class="md-primary" layout layout-align="center end">Assigner</md-button>
+                </div>
+            </td>
+        </tr>
+    </tr>
+    </table>
     </md-content>
-  </form>
+    </form>
 </div> 
 
 <!-- <span>

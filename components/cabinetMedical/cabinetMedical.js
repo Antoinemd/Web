@@ -13,39 +13,26 @@ require("./cabinetMedical.css");
 module.exports = function (moduleAngular) {
 
     var proxyNF = require("../../js/noyauFonctionnel.js")(moduleAngular);
+    
     var controllerCabinetMedical = function (proxyNF) {
-
-        // Cette fonction sera appelée pour instancier un cabinet
+        
         var ctrl = this;
+
         proxyNF.getData(this.src).then(function (cabinetJS) {
-
-            // ctrl.inf = cabinetJS.infirmiers;
-            // ctrl.patNonAff = cabinetJS.patientsNonAffectes;
-            ctrl.data = cabinetJS;
-
-         
+            ctrl.data = cabinetJS;         
         });
+
 
         // Mettre à jour les données
         this.updateInfirmiers = function() {
             proxyNF.getData(this.src).then( function(cabinetJS) {
             ctrl.data = cabinetJS;
-            console.log("CabinetMedical.js => mise à jour des données");
+
+            console.log(ctrl.data);
+            console.log(cabinetJS);
+            console.log("CabinetMedical.js => Données mises à jour !");
         });
         };
-
-
-        this.affectectationPatient = function($data) {
-            ctrl.affecterInfirmier ={
-                "patient": $data,
-                "infirmier": ctrl.ongletInfirmierActif
-            }
-            proxyNF.affecterPatient(ctrl.affecterInfirmier).then(
-                function(){
-                    console.log("cabinetMedical.js => drop de patient !");
-                    ctrl.updateInfirmiers();
-                });
-        }
 
 
         this.test = function () {
@@ -53,9 +40,6 @@ module.exports = function (moduleAngular) {
         }
 
     }
-
-
-    
 
 
     require("../menu/menu.js")(moduleAngular);
@@ -69,7 +53,8 @@ module.exports = function (moduleAngular) {
         template: template,
         bindings: {
             titre: "@", // pour indiquer que la source est du texte 
-            src: "@",
+            src: "@"
+
 
         },
         controller: controllerCabinetMedical
