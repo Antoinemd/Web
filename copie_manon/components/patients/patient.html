@@ -1,0 +1,75 @@
+<md-content class="md-padding">
+    <md-tabs md-border-bottom md-no-ink-bar>
+        <md-tab>
+            <md-tab-body>                        
+                <div layout="column" layout-wrap >        
+                    <div layout="row" layout-align="space-between center" flex>
+                        <div class="titre" flex> Prénom           </div>
+                        <div class="titre" flex> Nom              </div>
+                        <div class="titre" flex> Sexe             </div>
+                        <div class="titre" flex> Date de naissance</div>
+                        <div class="titre" flex> ID_Patient       </div>
+                        <div class="titre" flex> Assigner         </div>
+                        <div class="titre" flex> Supprimer        </div>
+                    </div>            
+                    
+                    <div layout="row" layout-align="space-around center" flex
+                         ng-repeat="patient in $ctrl.data" ng-mouseenter="show = true" ng-mouseleave="show = false">
+                        <md-list-item>
+                            <div flex>{{patient.prenom}}</div>
+                            <div flex>{{patient.name}}  </div>
+                            <div flex>{{patient.sexe}}  </div>
+                            <div flex>{{patient.naiss}} </div>
+                            <div flex>{{patient.id}}    </div>
+                            <div flex> <a href=""><img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
+                                
+                            </div>
+                            <div flex> <a href=""><img ng-click="$ctrl.supprimerPatient(patient.id)" 
+                                                 src="../../images/delete_32.png"/></a>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                    </div>
+                </div>
+            </md-tab-body>
+        </md-tab>
+  </md-tabs>
+</md-content>
+
+
+<!-- <md-content>
+
+    <table class="padding">
+    <thead>
+        <tr>
+            <th><div class="titre" flex> Prénom           </div></th>
+            <th><div class="titre" flex> Nom              </div></th>
+            <th><div class="titre" flex> Sexe             </div></th>
+            <th><div class="titre" flex> Date de naissance</div></th>
+            <th><div class="titre" flex> ID_Patient       </div></th>
+            <th><div class="titre" flex> Assigner         </div></th>
+            <th><div class="titre" flex> Supprimer        </div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="itemsContainer" ng-repeat="patient in $ctrl.data">
+
+            <td><div class="content" flex>{{patient.prenom}}</div></td>
+            <td><div class="content" flex>{{patient.name}}  </div></td>
+            <td><div class="content" flex>{{patient.sexe}}  </div></td>
+            <td><div class="content" flex>{{patient.naiss}} </div></td>
+            <td><div class="content" flex>{{patient.id}}    </div></td>
+            <td><div class="image"> 
+                    <a href=""> <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
+                </div>
+            </td>
+            <td><div class="image"> 
+                    <a href=""> <img ng-click="$ctrl.supprimerPatient(patient.id)" src="../../images/delete_32.png"/></a>
+            </div>
+            </td>
+
+        </tr>
+    
+    </tbody>
+    </table>
+</md-content> -->

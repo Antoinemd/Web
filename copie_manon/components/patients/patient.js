@@ -1,23 +1,27 @@
 // Template HTML
-var template = require( "./patient.html" );
+var template = require("./patient.html");
 var templateFormulaire = require("./formulairePatient.html");
-require( "./patient.css" );
+
+require("./patient.css");
 require("./formulairePatient.css");
 
 // Définition du composant
-module.exports = function(moduleAngular) {
+module.exports = function (moduleAngular) {
 
     var proxyNF = require("../../js/noyauFonctionnel.js")(moduleAngular);
 
-    var controllerPatients = function( $http, proxyNF, $mdDialog/*, $mdMedia*/) {
+    var controllerPatients = function ($http, proxyNF, $mdDialog, $mdMedia) {
 
-        var ctrl=this;
+        var ctrl = this;
 
+        // console.log("var controllerPatients = function ($http, proxyNF, $mdDialog, $mdMedia) {");
+        // console.log("data");
+        // console.log(this.data);
 
         ctrl.newPatient = {
             "patientNumber": "",
             "patientName": "",
-            "patientForname":"",
+            "patientForname": "",
             "patientSex": "",
             "patientBirthday": "",
             "patientFloor": "",
@@ -25,78 +29,88 @@ module.exports = function(moduleAngular) {
             "patientStreet": "",
             "postalCode": "",
             "patientCity": ""
-            };
+        };
 
         ctrl.sexe = [{sexe: 'M'}, {sexe: 'F'}];
 
-        ctrl.check = false;
+        ctrl.check = false; // a modifier ? supprimer ?
         ctrl.affecterInfirmier = {
             "patient": "",
             "infirmier": ""
         };
 
 
+        this.test = function () {
+            console.log("PATATE de patients");
+            ctrl.testcabinet();
+        }
 
-        this.submitPatient = function(){
+        this.supprimer = function () {
+            console.log("on delete un patient");
+        }
+
+
+        // Ajouter un nouveau patient
+        this.submitPatient = function () {
             console.log(ctrl.newPatient);
-            proxyNF.addNewPatient(ctrl.newPatient);
-            if(ctrl.check == true && ctrl.affecterInfirmier.infirmier!=="") {
+            proxyNF.addNewPatient(ctrl.newPatient).then();
+        }
+
+
+
+        // Mettre  à jour les données infirmiers
+        this.updateInfirmiers = function() {
+            proxyNF.getData(this.src).then( function(cabinetJS) {
+            ctrl.data = cabinetJS;
+            console.log("CabinetMedical.js => mise à jour des données");
+        });
+        };
+
+        this.submitInfirmier = function () {
+            if (ctrl.affecterInfirmier.infirmier !== "") {
                 ctrl.affecterInfirmier.patient = ctrl.newPatient.patientNumber;
                 proxyNF.affecterPatient(ctrl.affecterInfirmier);
             }
         };
+        this.supprimerPatient = function(id) {
+            var identifiant = {'patientNumber': id}
+            var confirm = $mdDialog.confirm()
+              .title('Voulez-vous définitivement supprimer ce patient?')
+              .ariaLabel('Suppression patient')
+              .ok('supprimer')
+              .cancel('annuler');
+            $mdDialog.show(confirm).then(function() {
+                proxyNF.supprimerPatient(identifiant).then( function(){
+                    ctrl.updateInfirmiers();
+                });
+            });
+        }
 
-            // boite dialogue 
-     ctrl.showAlert = function(ev) {
-           var existePatient = false;
 
-           ctrl.data.objectPatients.forEach(function(patient){
-                console.log(patient.id);
-                if(patient.id == ctrl.newPatient.patientNumber) {
-                    existePatient = true;
-                }
-           });
-           if (!existePatient){
-                $mdDialog.show($mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Information')
-                    .textContent(ctrl.newPatient.patientForname +' '+ctrl.newPatient.patientName+ ' a été ajouté avec succès aux patients')
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Retour!')
-                    .targetEvent(ev)
-                    );
-            console.log("salut");
 
-            }else{
-                $mdDialog.show($mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(true)
-                    .title('Alerte')
-                    .textContent("Le patient \" " + ctrl.newPatient.patientForname +' '+ctrl.newPatient.patientName+' \" est déjà enregistré(e)')
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Retour!')
-                    .targetEvent(ev)
-                    );
-          };
-      };
-  };
+    };
 
-    // Construire une balise <cabinet-patient>
-    // moduleAngular.component( "cabinetPatient", {
-    //     'template'    : template,   // nom de la variable template.
-    //     bindings    : {
-    //         data: "<",  // type: données
-    //     },
-    //     'controller'    : controllerPatients
-    // });
+    
+
 
     //Construire une balise <cabinet-nouveau-patient>
-    moduleAngular.component( "cabinetNouveauPatient", {
-        'template'    : templateFormulaire,
-        bindings    : {
+    moduleAngular.component("cabinetPatient", {
+        'template': template,
+        bindings: {
             data: "<"
         },
-        'controller'    : controllerPatients
+        'controller': controllerPatients
+    });
+
+
+    //Construire une balise <cabinet-nouveau-patient>
+    moduleAngular.component("cabinetNouveauPatient", {
+        'template': templateFormulaire,
+        bindings: {
+            data: "<",
+            // permet d'appeler la méthode dans le controleur du cabinetMedical
+            onvalidation: "&"
+        },
+        'controller': controllerPatients
     });
 }

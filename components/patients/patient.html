@@ -1,80 +1,142 @@
-coucou içi patient.html
+    <md-toolbar>
+        <div class="md-toolbar-tools">
 
-<md-content class="md-padding">
-      <md-tabs md-border-bottom>
+            <h2>
+                <span>Patients sans infirmiers</span>
+            </h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
 
-            <md-tab>
-                <md-tab-body>
-                    <md-content class="md-padding","tab-content" layout="column">
-                            <div flex layout="row">
-                                <div class="titre" flex> Prénom            	</div>
-                                <div class="titre" flex> Nom               	</div>
-                                <div class="titre" flex> Sexe              	</div>
-                                <div class="titre" flex> Date de naissance	</div>
-                                <div class="titre" flex> ID_Patient       	</div>
-                                <div class="titre" flex> Assigner		 	</div>
-                                <div class="titre" flex> Supprimer		 	</div>
+    <md-content class="md-padding">
+    <md-tabs md-border-bottom md-no-ink-bar>
+        <md-tab>
+            <md-tab-body>                        
+                <div layout="column" layout-wrap >        
+                    <div layout="row" layout-align="space-between center" flex>
+                        <div class="titre" flex> Prénom           </div>
+                        <div class="titre" flex> Nom              </div>
+                        <div class="titre" flex> Sexe             </div>
+                        <div class="titre" flex> Date de naissance</div>
+                        <div class="titre" flex> ID_Patient       </div>
+                        <div class="titre" flex> Assigner         </div>
+                        <div class="titre" flex> Supprimer        </div>
+                    </div>            
+                    
+                    <div layout="row" layout-align="space-around center" flex
+                         ng-repeat="patient in $ctrl.data.patientsNonAffectes">
+                        <md-list-item class="md-2-line">
+                            <div flex>{{patient.prenom}}</div>
+                            <div flex>{{patient.name}}  </div>
+                            <div flex>{{patient.sexe}}  </div>
+                            <div flex>{{patient.naiss}} </div>
+                            <div flex>{{patient.id}}    </div> 
+                            <div flex ng-model="$ctrl.affecterInfirmier.infirmier"> 
+                                <a href="">
+                                    <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/>
+                                    </a>
                             </div>
-                    </md-content>
 
-                    <md-content class="md-padding","demo-tab","tab-content" layout="column">
-                        <div layout="column">
-                            <md-list ng-repeat="patient in ctrl.patNonAff" layout="column">
-                                <div flex layout="row">
-                                    <div class="content" flex>{{patient.prenom}}</div>
-                                    <div class="content" flex>{{patient.name}}  </div>
-                                    <div class="content" flex>{{patient.sexe}}  </div>
-                                    <div class="content" flex>{{patient.naiss}} </div>
-                                    <div class="content" flex>{{patient.id}}    </div>                                   
-
-                                </div>
-                                <md-divider ng-if="!$last"></md-divider>    
-                            </md-list-item>
-                        </div>
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
-      </md-tabs>
-  </md-content>
+                            <div flex> <a href=""><img ng-click="$ctrl.supprimerPatient(patient.id)" 
+                                                 src="../../images/delete_32.png"/></a>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                    </div>
+                </div>
+            </md-tab-body>
+        </md-tab>
+  </md-tabs>
+</md-content>
 
 
+<div layout="column" layout-align="start center" style="min-height: 300px; max-width: 150px;" ng-cloak>
+  <form name="myModel">
+  <md-content>
+    <md-input-container class="md-block">
+      <label>Choix de l'infirmier</label>
+        <md-select ng-model="$ctrl.affecterInfirmier.infirmier">
+            <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
+            {{ inf.name | uppercase }} {{ inf.prenom }}
+            </md-option>
+        </md-select>
+    <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
+        <div ng-message="required">Required</div>
+    </div>
+    </md-input-container>
 
-<!-- test -->
-<table>
-	<tr>
-		<td>{{$ctrl.patNonAff.name | uppercase}} {{$ctrl.patNonAff.prenom}}</td>
-	</tr>
+    <md-input-container class="md-block">
+        <label>Choix du patient</label>
+        <md-select ng-model="$ctrl.affecterInfirmier.patient">
+            <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.idInfirmier">
+            {{ pat.name | uppercase }} {{ pat.prenom }}
+            </md-option>
+        </md-select>
+      <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
+        <div ng-message="required">Required</div>
+      </div>
+    </md-input-container>
 
-	<!-- tableau qui est sensé s'afficher .. -->
-   <!--  <tr>
-        <th> Nom </th>
-        <th> Prénom </th>
-        <th> Sexe </th>
-        <th> Date de naissance </th>
-        <th> Id </th>
-        <th> Assigner </th>
-        <th> Supprimer <th>
-    </tr>
-    <tr class="itemsContainer" ng-repeat="patNonAff in $ctrl.patNonAff"> 
-        <td> {{patNonAff.name}} </td>
-        <td> {{patNonAff.prenom}} </td>
-        <td> {{patNonAff.sexe}} </td>
-        <td> {{patNonAff.naiss}} </td>
-        <td> {{patNonAff.id}} </td>
-        <td> <div class="image"> 
-                <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
+    <div layout="row">
+<!-- <md-button ng-click="clearValue()" ng-disabled="!myModel" style="margin-right: 20px;">Clear</md-button>  -->
+<md-button ng-click="$ctrl.save()" ng-disabled="FormAssignation.$invalid" class="md-primary" layout layout-align="center end">Save</md-button>
+    </div>
+    </md-content>
+  </form>
+</div> 
+
+<!-- <span>
+<md-checkbox ng-model="$ctrl.check">
+         Sélectionnez un infirmier
+    </md-checkbox>
+    <p>
+    <md-input-container ng-show="$ctrl.check == true">
+        <label>Assignation d'un infirmier à un patient</label>
+        <md-select ng-model="$ctrl.affecterInfirmier.infirmier">
+            <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
+            {{ inf.name | uppercase }} {{ inf.prenom }}
+            </md-option>
+        <label>Sélectionner un patient</label>
+             <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.id">
+            {{ pat.name | uppercase }} {{ pat.prenom }}
+            </md-option>
+        </md-select>
+    </md-input-container>
+    </p>
+   </span> -->
+<!-- <md-content>
+    
+    <table class="padding">
+    <thead>
+        <tr>
+            <th><div class="titre" flex> Prénom           </div></th>
+            <th><div class="titre" flex> Nom              </div></th>
+            <th><div class="titre" flex> Sexe             </div></th>
+            <th><div class="titre" flex> Date de naissance</div></th>
+            <th><div class="titre" flex> ID_Patient       </div></th>
+            <th><div class="titre" flex> Assigner         </div></th>
+            <th><div class="titre" flex> Supprimer        </div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="itemsContainer" ng-repeat="patient in $ctrl.data">
+
+            <td><div class="content" flex>{{patient.prenom}}</div></td>
+            <td><div class="content" flex>{{patient.name}}  </div></td>
+            <td><div class="content" flex>{{patient.sexe}}  </div></td>
+            <td><div class="content" flex>{{patient.naiss}} </div></td>
+            <td><div class="content" flex>{{patient.id}}    </div></td>
+            <td><div class="image"> 
+                    <a href=""> <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
+                </div>
+            </td>
+            <td><div class="image"> 
+                    <a href=""> <img ng-click="$ctrl.supprimerPatient(patient.id)" src="../../images/delete_32.png"/></a>
             </div>
-            
-             <md-button class="md-primary md-raised" id="btTest" ng-click="$ctrl.test()">Patate nonaf
-            </md-button>                
-            
-        </td>
-        <td> <div class="image"> 
-                <a href="#">  <img src="../../images/delete_32.png"/> </a>
-            </div>                
-        </td>
+            </td>
 
-
-    </tr>
-</table>
- -->
+        </tr>
+    
+    </tbody>
+    </table>
+</md-content>

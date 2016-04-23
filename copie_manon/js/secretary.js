@@ -13,14 +13,6 @@ require( "angular-material/angular-material.css" );
 
 // créer un module d'affichage des patients
 var modAng = angular.module("cabinet",[angularMaterial]);
-require("../components/infirmiers/infirmier.js")(modAng);
-
-require("../components/menu/menu.js")(modAng);
 
 require("../components/cabinetMedical/cabinetMedical.js")(modAng);
-
-require("../components/patients/patient.js")(modAng);
-
-
-// var modAngBis = angular.module('tabsDemoDynamicHeight', ['ngMaterial']);
 

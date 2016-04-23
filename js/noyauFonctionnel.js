@@ -72,12 +72,22 @@ var ProxyNF = function($http) {
                 inf:    patientXML.querySelector("visite").getAttribute("intervenant")
                 };
 
-            var numIntervention = patientXML.querySelector("visite[intervenant]");
-            if(numIntervention===null){
+            var numIntervenant = patientXML.querySelector("visite");
+
+            if(numIntervenant===null){
                 cabinetJS.patientsNonAffectes.push(pat);
-            } else {
-                var id = numIntervention.getAttribute("intervenant");
-                cabinetJS.infirmiers[id].patients.push(pat);
+            }
+
+            else {
+
+                var id = numIntervenant.getAttribute("intervenant");
+
+                if(typeof cabinetJS.infirmiers[id] !== "undefined"){
+                    cabinetJS.infirmiers[id].patients.push(pat);
+                }
+                else {
+                    cabinetJS.patientsNonAffectes.push(pat);
+                }
             }
            
         }); // fin de patientsXML
@@ -105,6 +115,8 @@ var ProxyNF = function($http) {
                 }
             );
         };
+
+        
 
     // Affecte à un patient un id d'infirmier
     this.affecterPatient = function(affecterInfirmier) {

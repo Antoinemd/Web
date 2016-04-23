@@ -16,10 +16,16 @@ div {
 	font-family: Ubuntu;
 }
 
+
+/*.content{
+	text-align: center;
+}*/
+
 .titre{
 	color: grey;
 	font-style: italic;
-	font-family: Ubuntu Mono;
+/*	text-align: center;
+*/	font-family: Ubuntu Mono;
 
 }
 
@@ -35,3 +41,4 @@ th, td {
 }
 
 tr.rowPat:hover {background-color: #f5f5f5}
+

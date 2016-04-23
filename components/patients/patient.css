@@ -4,18 +4,26 @@
 }
 
 
+th.itemsContainer {
+    background:none; 
+    float:center;
+    position:relative
+}
 
-.dialogdemoBasicUsage #popupContainer {
-  position: relative; }
-.dialogdemoBasicUsage .footer {
-  width: 100%;
-  text-align: center;
-  margin-left: 20px; }
-.dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
-  font-size: 0.8em;
-  margin-top: 50px; }
-.dialogdemoBasicUsage button {
-  width: 200px; }
-.dialogdemoBasicUsage div#status {
-  color: #c60008; }
+.itemsContainer:hover .image{display:block}
+.image{
+  position : auto;
+    display:none;
+    top:20%; 
+    width:40px;
+    margin:0 auto; left:0px;
+    right:0px;
+    z-index:100
+} 
+
+
+.wraptocenter {
+    text-align: center;
+
+}
 

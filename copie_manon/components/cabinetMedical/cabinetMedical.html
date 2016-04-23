@@ -1,85 +1,81 @@
-
-
-
 <h1>Interface secrétaire</h1>
 
 <div>
+    <section id="patientsAffectes">
 
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>
+                    <span>Gestion des infimiers </span>
+                </h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
 
-<section id="patientsAffectes">
+        <md-content class=class="md-padding","demo-tab","tab-content">
+          <md-tabs md-selected="selectedIndex" md-border-bottom>
 
+                <md-tab ng-repeat="inf in $ctrl.inf" ng-disabled="tab.disabled"
+                    label=" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}">
 
-  <md-toolbar >
-    <div class="md-toolbar-tools">
-
-      <h2>
-        <span>Gestion des infimiers </span>
-      </h2>
-      <span flex></span>
-    </div>
-  </md-toolbar>
-
-
-<md-content class="md-padding">
-      <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>
-      <!-- <md-tab label="{{ID_Infirmier}} {{Prénom}} {{Nom}}"> -->
-
-            <md-tab ng-repeat="inf in $ctrl.inf" ng-disabled="tab.disabled"
-            label=" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}">
-
-                <md-tab-body>
-                    <md-content class="md-padding","demo-tab","tab-content" layout="column">
-                            <div flex layout="row">
-                                <div class="titre" flex>Prénom            </div>
-                                <div class="titre" flex>Nom               </div>
-                                <div class="titre" flex>Sexe              </div>
-                                <div class="titre" flex>Date de naissance </div>
-                                <div class="titre" flex>ID_Patient        </div>
+                    <md-tab-body>                        
+                        <div layout="column" layout-wrap >        
+                            <div layout="row" layout-align="space-between center" layout-wrap>
+                                <div flex class="titre" >Prénom</div>
+                                <div flex class="titre" >Nom</div>
+                                <div flex class="titre" >Sexe</div>
+                                <div flex class="titre" >Date de naissance</div>
+                                <div flex class="titre" >ID_Patient</div>
                             </div>
-                    </md-content>
 
-                    <md-content class="md-padding","demo-tab","tab-content" layout="column">
-                        <div layout="column">
-                            <md-list ng-repeat="patient in inf.patients" layout="column">
-                                <div flex layout="row">
+                            <div layout="row" layout-align="space-around center" layout-wrap ng-repeat="patient in inf.patients">
+                                <md-list-item>
                                     <div flex>{{patient.prenom}}</div>
                                     <div flex>{{patient.name}}  </div>
                                     <div flex>{{patient.sexe}}  </div>
                                     <div flex>{{patient.naiss}} </div>
                                     <div flex>{{patient.id}}    </div>                                   
-
-                                </div>
-                                <md-divider ng-if="!$last"></md-divider>    
-                            </md-list-item>
+                                    <md-divider ng-if="!$last"></md-divider>    
+                                </md-list-item>
+                            </div>
                         </div>
-                    </md-content>
-                </md-tab-body>
-            </md-tab>
-      </md-tabs>
-  </md-content>
+                    </md-tab-body>
+                </md-tab>
+          </md-tabs>
+      </md-content>
+</section>
 
 
+<section>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+
+            <h2>
+                <span>Patients sans infirmiers</span>
+            </h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
 
 
-  <md-toolbar >
-    <div class="md-toolbar-tools">
+    <div>
 
-      <h2>
-        <span>Patients sans infirmiers</span>
-      </h2>
-      <span flex></span>
-    </div>
-  </md-toolbar>
+        <!-- Affichage du tablea de patients non affectés -->
+        <cabinet-patient data="$ctrl.patNonAff"></cabinet-patient>
 
-    <!-- Affichage patients non affectés -->
-    <cabinet-patientna src="data/cabinetInfirmier.xml"> </cabinet-patientna>
+        testcabinet
 
+        <cabinet-nouveau-patient onvalidation="$ctrl.updateData()"></cabinet-nouveau-patient>
+
+    </div><br/>
+</section>
 
 
 
 <div>
-<p> Attribuer un infirmier  à un patient: </p>
-<section id = ajouterPatient>
-    <button>Assigner un infirmier<br/>au patient</button>
-</section>
- </div>  
+    <md-button class="md-primary md-raised" id="btnInfirmier" ng-click="$self.test()">
+        Assigner Infirmier
+    </md-button>
+</div>
+
+</div> 
