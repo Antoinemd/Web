@@ -10,17 +10,17 @@
 		<infirmier id="001">
 			<nom>Versaire</nom>
 			<prenom>Annie</prenom>
-			<photo>images/homer1.svg</photo>
+			<photo>images/homer1.gif</photo>
 		</infirmier>
 		<infirmier id="002">
 			<nom>Cent</nom>
 			<prenom>Sally</prenom>
-			<photo>images/lisa111.svg</photo>
+			<photo>images/lisa111.gif</photo>
 		</infirmier>
 		<infirmier id="003">
 			<nom>Nouie</nom>
 			<prenom>Eva</prenom>
-			<photo>images/maggie111.svg</photo>
+			<photo>images/maggie111.gif</photo>
 		</infirmier>
 	</infirmiers>
 	<patients>

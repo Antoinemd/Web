@@ -8,14 +8,28 @@
 </md-toolbar>
 
 <md-content class="md-padding","demo-tab","tab-content">
-    <md-tabs md-selected="selectedIndex" md-border-bottom>
-        <md-tab ng-repeat="inf in $ctrl.data.infirmiers" ng-disabled="tab.disabled"
-                label=" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}">
+    <md-tabs md-selected="selectedIndex" md-border-bottom md-dynamic-height="">
+        <md-tab ng-repeat="inf in $ctrl.data.infirmiers" ng-disabled="tab.disabled" md-dynamic-height="">
+            <md-tab-label>
+                <md-card-title-media >
+                    <div layout="row">
+                        <div class="md-media-lg card-media">
+                            {{inf.prenom}} {{inf.name | uppercase}} - {{inf.idInfirmier}}
+                         </div>
+                         <div layout-align="space-around stretch">
+                            <img ng-src="{{inf.photo}}" alt="Photo de {{inf.nom + ' ' + inf.prenom}}"/>
+                        </div>
+                    </div>
+                </md-card-title-media>
+            </md-tab-label>
+
+
             <md-tab-body>                        
                 <table layout-fill>
                     <thead >
                         <tr>
-                            <th class="titre" > Prénom </th>
+                            <th class="titre" > 
+                            <div> Prénom </div></th>
                             <th class="titre" > Nom </th>
                             <th class="titre" > Sexe </th>
                             <th class="titre" > Date de naissance</th>
