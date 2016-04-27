@@ -1,164 +1,167 @@
-    <md-toolbar>
-        <div class="md-toolbar-tools">
 
-            <h2>
-                <span>Patients sans infirmiers</span>
-            </h2>
-            <span flex></span>
-        </div>
-    </md-toolbar>
+<!-- Partie affichage des patients sans infirmiers -->
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2><span>Patients sans infirmiers</span></h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
 
-    <md-content class="md-padding">
+<table layout-fill  >
+    <thead flex layout-wrap>
+        <tr>
+            <th class="titre" > Nom </th>
+            <th class="titre" > Prénom </th>
+            <th class="titre" > Sexe </th>
+            <th class="titre" > Date de naissance</th>
+            <th class="titre" > ID_Patient </th>
+            <th class="titre" > Adresse</th>
+        </tr>
+    </thead>
+
+    <tbody flex>
+    <tr ng-repeat="patient in $ctrl.data.patientsNonAffectes" class="md-2-lines" 
+        ng-mouseenter="show = true" ng-mouseleave="show = false"> 
+        <td flex>{{patient.name}} </td>
+        <td flex>{{patient.prenom}}</td>
+        <td flex>{{patient.sexe}} </td>
+        <td flex>{{patient.naiss}} </td>
+        <td flex>{{patient.id}} </td>
+  
+
+        <td flex >
+        <table>
+            <tr>
+                <td ng-init="tooltip=false">
+                    <md-button class="md-raised md-primary tooltip"
+                        ng-mouseover="tooltip=true" ng-mouseleave="tooltip=false"> Afficher</md-button>
+                </td>
+
+                <td ng-show="tooltip">
+                    étage: {{patient.adresse.etage}} <br/> 
+                    N°: {{patient.adresse.numero}} <br/>
+                    rue: {{patient.adresse.rue}} <br/> 
+                    ville: {{patient.adresse.ville}}<br/> 
+                    cp: {{patient.adresse.cp}}<br/> 
+                </td>
+            </tr>
+        </table>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+<!-- 
+
+<md-content class="md-padding">
     <md-tabs md-border-bottom md-no-ink-bar>
         <md-tab>
-            <md-tab-body>                        
-                <div layout="column" layout-wrap >        
+            <md-tab-body>
+                <div layout-sm="column" layout-wrap>
                     <div layout="row" layout-align="space-between center" flex>
-                        <div class="titre" flex> Prénom           </div>
-                        <div class="titre" flex> Nom              </div>
-                        <div class="titre" flex> Sexe             </div>
-                        <div class="titre" flex> Date de naissance</div>
-                        <div class="titre" flex> ID_Patient       </div>
-               <!--          <div class="titre" flex> Assigner         </div>
-                        <div class="titre" flex> Supprimer        </div> -->
-                    </div>            
-                    
-                    <div layout="row" layout-align="space-around center" flex
-                         ng-repeat="patient in $ctrl.data.patientsNonAffectes">
+                        <div class="titre" > Prénom </div>
+                        <div class="titre" > Nom </div>
+                        <div class="titre" > Sexe </div>
+                        <div class="titre" > Date de naissance</div>
+                        <div class="titre" > ID_Patient </div>
+                        <div class="titre" > Adresse</div>
+                                 <div class="titre" flex> Assigner         </div>
+                        <div class="titre" flex> Supprimer        </div>
+                    </div>
+
+                    <div layout="row" layout-align="space-around center" ng-repeat="patient in $ctrl.data.patientsNonAffectes">
                         <md-list-item class="md-2-line">
                             <div flex>{{patient.prenom}}</div>
-                            <div flex>{{patient.name}}  </div>
-                            <div flex>{{patient.sexe}}  </div>
+                            <div flex>{{patient.name}} </div>
+                            <div flex>{{patient.sexe}} </div>
                             <div flex>{{patient.naiss}} </div>
-                            <div flex>{{patient.id}}    </div> 
-                           <!--  <div flex ng-model="$ctrl.affecterInfirmier.infirmier"> 
+                            <div flex>{{patient.id}} </div>
+ -->                            <!-- <div flex>{{patient.adresse}} </div> -->
+
+                            <!--  <div flex ng-model="$ctrl.affecterInfirmier.infirmier">
                                 <a href="">
                                     <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/>
                                     </a>
                             </div>
 
-                            <div flex> <a href=""><img ng-click="$ctrl.supprimerPatient(patient.id)" 
+                            <div flex> <a href=""><img ng-click="$ctrl.supprimerPatient(patient.id)"
                                                  src="../../images/delete_32.png"/></a>
                             </div> -->
-                            <md-divider ng-if="!$last"></md-divider>
+<!--                             <md-divider ng-if="!$last"></md-divider>
                         </md-list-item>
                     </div>
                 </div>
             </md-tab-body>
         </md-tab>
-  </md-tabs>
-</md-content>
+    </md-tabs>
+</md-content> -->
 
 
-<div layout="column" layout-align="start center" style="min-height: 200px; max-width: 600px;" ng-cloak>
-  <form name="myModel" ng-submit="$ctrl.assignerInfirmier()">
-  <md-content>
-  <table>
-    <!-- Bloque de selection infirmier -->
-    <tr>
-    bug: dernier patient de la liste ne peut etre affecté .. + boutton clear marche pas
-        <td>
-            <md-input-container class="md-block">
-                <label>Choix de l'infirmier</label>
-                <md-select ng-model="$ctrl.affecterInfirmier.infirmier" required>
-                    <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
 
-                    {{ inf.prenom }} {{ inf.name | uppercase }} 
+<!-- Partie assignation d'un infirmier à un patient -->
+<md-content>
+<md-toolbar style="max-width: 46%;">
+    <div class="md-toolbar-tools">
+        <h2><span>Section d'affectation</span></h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
 
-                    </md-option>
-                </md-select>
-                <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
-                    <div ng-message="required">Required</div>
-                </div>
-            </md-input-container>
-        </td>
-        
-        <td>
-        <!-- Bloque de selection du patient -->
-        <md-input-container class="md-block">
-            <label>Choix du patient</label>
-            <md-select ng-model="$ctrl.affecterInfirmier.patient" required>
+<div layout="column" style="min-height: 200px; max-width: 600px;">
+    <form name="formulaireAssignation" >
+        <md-content>
+            <table>
+                <tr>
+                    <td>
+                        <md-input-container class="md-block" name="affectationInfirmier">
+                            <label>Choix de l'infirmier</label>
+                            <md-select ng-model="$ctrl.affecterInfirmier.infirmier" required>
+                                <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
 
-            <!-- !!! bug dernier patient de la liste ne peut etre affecté .. -->
-                <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.id">
+                                    {{ inf.prenom }} {{ inf.name | uppercase }}
 
-                {{ pat.prenom }} {{ pat.name | uppercase }}
-                
-                </md-option>
-            </md-select>
-            <div class="errors" ng-messages="myModel.myModel.$error" ng-if="myModel.$dirty">
-                <div ng-message="required">Required</div>
-            </div>
-        </md-input-container>
-        </td>
-        
-        <tr>
-            <td>
-                <div layout="row">
-                    <md-button ng-click="$ctrl.clearValue()" ng-disabled="!myModel" style="margin-right: 20px;">
-                    Clear</md-button>
-                    <md-button ng-click="$ctrl.assignerInfirmier()" ng-disabled="myModel.$invalid" class="md-primary" layout layout-align="center end">Assigner</md-button>
-                </div>
-            </td>
-        </tr>
-    </tr>
-    </table>
-    </md-content>
+                                </md-option>
+                            </md-select>
+                            <div class="errors" ng-messages="formulaireAssignation.affectationInfirmier.$error" 
+                                 ng-if="affectationInfirmier.$dirty">
+                                <div ng-message="required">Required</div>
+                            </div>
+                        </md-input-container>
+                    </td>
+
+                    <td>
+                        <!-- Bloc de selection du patient -->
+                        <md-input-container class="md-block" name="affectationPatient">
+                            <label>Choix du patient</label>
+                            <md-select ng-model="$ctrl.affecterInfirmier.patient" required>
+                                <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.id">
+
+                                    {{ pat.prenom }} {{ pat.name | uppercase }}
+
+                                </md-option>
+                            </md-select>
+                            <div class="errors" ng-messages="formulaireAssignation.affectationPatient.$error" 
+                            ng-if="affectationPatient.$dirty">
+                                <div ng-message="required">Required</div>
+                            </div>
+                        </md-input-container>
+                    </td>
+
+                    <tr>
+                        <td>
+                            <div layout="row">
+                                <md-button ng-click="$ctrl.clearValue()" 
+                                    ng-disabled="!formulaireAssignation" style="margin-right: 20px;">Clear
+                                </md-button>
+                                <md-button ng-click="$ctrl.assignerInfirmier()" ng-disabled="formulaireAssignation.$invalid"
+                                    class="md-primary" layout layout-align="center end">Assigner
+                                </md-button>
+                            </div>
+                        </td>
+                    </tr>
+                </tr>
+            </table>
+        </md-content>
     </form>
-</div> 
-
-<!-- <span>
-<md-checkbox ng-model="$ctrl.check">
-         Sélectionnez un infirmier
-    </md-checkbox>
-    <p>
-    <md-input-container ng-show="$ctrl.check == true">
-        <label>Assignation d'un infirmier à un patient</label>
-        <md-select ng-model="$ctrl.affecterInfirmier.infirmier">
-            <md-option ng-repeat="inf in $ctrl.data.infirmiers" ng-value="inf.idInfirmier">
-            {{ inf.name | uppercase }} {{ inf.prenom }}
-            </md-option>
-        <label>Sélectionner un patient</label>
-             <md-option ng-repeat="pat in $ctrl.data.patientsNonAffectes" ng-value="pat.id">
-            {{ pat.name | uppercase }} {{ pat.prenom }}
-            </md-option>
-        </md-select>
-    </md-input-container>
-    </p>
-   </span> -->
-<!-- <md-content>
-    
-    <table class="padding">
-    <thead>
-        <tr>
-            <th><div class="titre" flex> Prénom           </div></th>
-            <th><div class="titre" flex> Nom              </div></th>
-            <th><div class="titre" flex> Sexe             </div></th>
-            <th><div class="titre" flex> Date de naissance</div></th>
-            <th><div class="titre" flex> ID_Patient       </div></th>
-            <th><div class="titre" flex> Assigner         </div></th>
-            <th><div class="titre" flex> Supprimer        </div></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="itemsContainer" ng-repeat="patient in $ctrl.data">
-
-            <td><div class="content" flex>{{patient.prenom}}</div></td>
-            <td><div class="content" flex>{{patient.name}}  </div></td>
-            <td><div class="content" flex>{{patient.sexe}}  </div></td>
-            <td><div class="content" flex>{{patient.naiss}} </div></td>
-            <td><div class="content" flex>{{patient.id}}    </div></td>
-            <td><div class="image"> 
-                    <a href=""> <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/> </a>
-                </div>
-            </td>
-            <td><div class="image"> 
-                    <a href=""> <img ng-click="$ctrl.supprimerPatient(patient.id)" src="../../images/delete_32.png"/></a>
-            </div>
-            </td>
-
-        </tr>
-    
-    </tbody>
-    </table>
+</div>
 </md-content>

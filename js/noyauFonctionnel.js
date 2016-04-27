@@ -1,34 +1,28 @@
-
-var ProxyNF = function($http) {
-    // Ajoutez le code de construction du service
-    // Cette fonction sera appelée pour instancier un objet service
+// Utilisation de $http pour charger le XML
+var ProxyNF = function($http) {             
 
     console.log("le service proxyNF est istancié."); 
+    
+    /*  on a getData qui est une methode de proxyNF cette methode attends une promise 
+        et elle instancie et renvoie l'objet cabinetJS (resultat du traitement)
+    */
     this.getData = function(src){
 
         return $http.get(src).then(processData);
     }
 
-    // this.getDataInfirmier = function(src){
-    //     console.log("prout");
-    //     return $http.get(src).then(processDataInfirmier);
-    // }
-
-/* on a getData qui est une methode de proxyNF
-    cette methode attends une promise et renvoie le cabinetJS (resultat du traitement)
-*/
-
     function processData(response){
 
         require( "./secretary.css" );
 
+        // Déclaration de notre objet cabinetJS
         var cabinetJS = { patientsNonAffectes : [],
                           patientsAffectes : [],
                           infirmiers : {}
                         };
 
-        // Utilisez $http pour télécharger la base de données
-        //$http.get ("data/cabinetInfirmier.xml").then( function(response) {
+
+
 
         var parser = new DOMParser();
 
@@ -39,7 +33,7 @@ var ProxyNF = function($http) {
         var infirmiersXML = Array.prototype.slice.apply(doc.querySelectorAll("infirmier"), []);
         var patientsXML = Array.prototype.slice.apply(doc.querySelectorAll("patient"),[]);
 
-        //infirmiersXML.forEach(); //passer en argument la fonction à appliquer à chq infirmier
+        //passer en argument la fonction à appliquer à chq infirmier
         //construction du tableau d'objets "infirmiers"
         infirmiersXML.forEach(function(infirmierXML) {
             cabinetJS.infirmiers[infirmierXML.getAttribute("id")] = {
@@ -52,7 +46,9 @@ var ProxyNF = function($http) {
         });
 
         // Traitement 
-        patientsXML.forEach(function(patientXML){
+        patientsXML.forEach(function(patientXML){        
+
+            var tmp;            
             var pat =  {
                 name:       patientXML.querySelector("nom").textContent,
                 prenom:     patientXML.querySelector("prenom").textContent,
@@ -61,36 +57,55 @@ var ProxyNF = function($http) {
                 id:         patientXML.querySelector("numero").textContent,
                 
 
-                adresse:    [{
-                    etage:  patientXML.querySelector("adresse[etage]"),
-                    numero: patientXML.querySelector("adresse[numero]"),
-                    rue:    patientXML.querySelector("adresse[rue]"),
-                    ville:  patientXML.querySelector("adresse[ville]"),
-                    cP:     patientXML.querySelector("adresse[codePostal]")
-                }],
+                adresse:    {
+                    // etage:  patientXML.querySelector("etage").textContent,
+                    // etage:  (tmp=(patientXML.querySelector("adresse>etage")) === null ? "n/a" : tmp),
+                    // numero: (tmp=(patientXML.querySelector("adresse>numero"))=== null ? "n/a" : tmp),
+                    // rue:    (tmp=(patientXML.querySelector("adresse>rue")) === null ? "n/a" : tmp),
+                    // ville:  (tmp=(patientXML.querySelector("adresse>ville")) === null ? "n/a" : tmp),
+                    // cp:     (tmp=(patientXML.querySelector("adresse>codePostal")) === null ? "n/a" : tmp)
+                    rue:    patientXML.querySelector("adresse>rue").textContent,
+                    ville:  patientXML.querySelector("adresse>ville").textContent,
+                    cp:     patientXML.querySelector("adresse>codePostal").textContent
+                },
                 // renseigne sur l'ID de infirmier qui s'occupe du patient, si null: le patient "n'appartient" à aucune infirmier: il n'a pas subi d'intervention !
                 inf:    patientXML.querySelector("visite").getAttribute("intervenant")
-                };
+
+            };
+
+            
+
+
+            var patEtage = patientXML.querySelector("adresse[etage]");
+            var patNum = patientXML.querySelector("adresse[numero]");
+
+            // test si les champs etages,numéros sont vides
+            // if(patEtage===null){
+            //     patEtage = "n/a";
+            // }
+            
+            // if(patNum===null){
+            //     patNum = "n/a";
+            // }
 
             var numIntervenant = patientXML.querySelector("visite");
 
             if(numIntervenant===null){
                 cabinetJS.patientsNonAffectes.push(pat);
-            }
-
-            else {
+            } else {
 
                 var id = numIntervenant.getAttribute("intervenant");
 
                 if(typeof cabinetJS.infirmiers[id] !== "undefined"){
                     cabinetJS.infirmiers[id].patients.push(pat);
-                }
-                else {
+                } else {
                     cabinetJS.patientsNonAffectes.push(pat);
                 }
             }
            
         }); // fin de patientsXML
+
+        console.log(cabinetJS);
 
         return cabinetJS;
     }   // fin de processData

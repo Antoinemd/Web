@@ -14,7 +14,6 @@ module.exports = function(moduleAngular) {
     moduleAngular.component( "cabinetInfirmier", {
         'template'    : template,
         bindings    : {
-            titre   : "@",
             data    : "<"
         },
         controller    : ctrlInfirmiers

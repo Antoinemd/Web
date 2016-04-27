@@ -1,27 +1,25 @@
-<h1>Interface secrétaire</h1>
 
 
-   
 <section>
 
 
     <span>
+            <!-- Affichage de la vue des infirmiers et des patients affectés -->
         <div>
-            <cabinet-infirmier data="$ctrl.data"></cabinet-infirmier>
+            <cabinet-infirmier data="$ctrl.data" titre="Interface secrétaire"></cabinet-infirmier>
         </div>
 
         <div>
-            <!-- Affichage du tablea de patients non affectés -->
+            <!-- Affichage du tableau de patients non affectés -->
             <cabinet-patient data="$ctrl.data" on-validation="$ctrl.updateInfirmiers()"></cabinet-patient>
         </div>
 
         <div>
-            <cabinet-nouveau-patient data="$ctrl.data"></cabinet-nouveau-patient>
+            <!-- Affichage du formulaire d'inscription d'un nouveau patient -->
+            <cabinet-nouveau-patient data="$ctrl.data" on-validation="$ctrl.updateInfirmiers()"></cabinet-nouveau-patient>
         </div>
     </span>
-                             
+
 
     </div><br/>
 </section>
-
-
