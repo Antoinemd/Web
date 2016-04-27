@@ -1,5 +1,9 @@
 
 <!-- Partie affichage des patients sans infirmiers -->
+<p>
+<br/>
+</p>
+
 <md-toolbar>
     <div class="md-toolbar-tools">
         <h2><span>Patients sans infirmiers</span></h2>
@@ -7,96 +11,50 @@
     </div>
 </md-toolbar>
 
+
+
+
 <table layout-fill  >
-    <thead flex layout-wrap>
+    <thead >
         <tr>
-            <th class="titre" > Nom </th>
             <th class="titre" > Prénom </th>
+            <th class="titre" > Nom </th>
             <th class="titre" > Sexe </th>
             <th class="titre" > Date de naissance</th>
             <th class="titre" > ID_Patient </th>
-            <th class="titre" > Adresse</th>
+            <th class="titre" style="min-width: 30%"> Adresse</th>
         </tr>
     </thead>
 
-    <tbody flex>
-    <tr ng-repeat="patient in $ctrl.data.patientsNonAffectes" class="md-2-lines" 
-        ng-mouseenter="show = true" ng-mouseleave="show = false"> 
-        <td flex>{{patient.name}} </td>
-        <td flex>{{patient.prenom}}</td>
+    <tbody ng-init="btn=false; adr=false">
+    <tr ng-repeat="patient in $ctrl.data.patientsNonAffectes" class="md-2-lines"
+        ng-mouseenter="btn=true" ng-mouseleave="btn=false" >
+        <td flex>{{patient.prenom}} </td>
+        <td flex>{{patient.name}}</td>
         <td flex>{{patient.sexe}} </td>
         <td flex>{{patient.naiss}} </td>
         <td flex>{{patient.id}} </td>
-  
-
-        <td flex >
-        <table>
-            <tr>
-                <td ng-init="tooltip=false">
-                    <md-button class="md-raised md-primary tooltip"
-                        ng-mouseover="tooltip=true" ng-mouseleave="tooltip=false"> Afficher</md-button>
-                </td>
-
-                <td ng-show="tooltip">
-                    étage: {{patient.adresse.etage}} <br/> 
-                    N°: {{patient.adresse.numero}} <br/>
-                    rue: {{patient.adresse.rue}} <br/> 
-                    ville: {{patient.adresse.ville}}<br/> 
-                    cp: {{patient.adresse.cp}}<br/> 
-                </td>
-            </tr>
-        </table>
+        <td >
+            <div layout="row">
+                <!-- Affihage buggé sur chrome mais pas Firefox -->
+                <div>
+                    <md-button class="md-raised md-primary btn" ng-show="btn"
+                    ng-mouseenter="adr=true" ng-mouseleave="adr=false"> Afficher</md-button>
+                </div>
+                <div ng-show="adr">
+                    <!--étage: {{patient.adresse.etage}} <br/> 
+                    N°: {{patient.adresse.numero}} <br/> -->
+                    Rue:  {{patient.adresse.rue}} <br/> 
+                    Ville:  {{patient.adresse.ville}}<br/> 
+                    CP:  {{patient.adresse.cp}}<br/>
+                </div>
+            </div>
         </td>
-
     </tr>
     </tbody>
 </table>
-<!-- 
 
-<md-content class="md-padding">
-    <md-tabs md-border-bottom md-no-ink-bar>
-        <md-tab>
-            <md-tab-body>
-                <div layout-sm="column" layout-wrap>
-                    <div layout="row" layout-align="space-between center" flex>
-                        <div class="titre" > Prénom </div>
-                        <div class="titre" > Nom </div>
-                        <div class="titre" > Sexe </div>
-                        <div class="titre" > Date de naissance</div>
-                        <div class="titre" > ID_Patient </div>
-                        <div class="titre" > Adresse</div>
-                                 <div class="titre" flex> Assigner         </div>
-                        <div class="titre" flex> Supprimer        </div>
-                    </div>
-
-                    <div layout="row" layout-align="space-around center" ng-repeat="patient in $ctrl.data.patientsNonAffectes">
-                        <md-list-item class="md-2-line">
-                            <div flex>{{patient.prenom}}</div>
-                            <div flex>{{patient.name}} </div>
-                            <div flex>{{patient.sexe}} </div>
-                            <div flex>{{patient.naiss}} </div>
-                            <div flex>{{patient.id}} </div>
- -->                            <!-- <div flex>{{patient.adresse}} </div> -->
-
-                            <!--  <div flex ng-model="$ctrl.affecterInfirmier.infirmier">
-                                <a href="">
-                                    <img ng-click="$ctrl.test()" src="../../images/add_inf.png"/>
-                                    </a>
-                            </div>
-
-                            <div flex> <a href=""><img ng-click="$ctrl.supprimerPatient(patient.id)"
-                                                 src="../../images/delete_32.png"/></a>
-                            </div> -->
-<!--                             <md-divider ng-if="!$last"></md-divider>
-                        </md-list-item>
-                    </div>
-                </div>
-            </md-tab-body>
-        </md-tab>
-    </md-tabs>
-</md-content> -->
-
-
+<br/>
 
 <!-- Partie assignation d'un infirmier à un patient -->
 <md-content>

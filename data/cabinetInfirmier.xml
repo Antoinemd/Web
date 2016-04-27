@@ -166,17 +166,26 @@
 				<ville>Grenoble</ville>
 				<codePostal>38100</codePostal>
 			</adresse>
-			<visite>
+			<visite intervenant="002">
 			</visite>
-
 		</patient>
-		<patient><nom>George</nom><prenom>Sand</prenom><numero>123456789233287</numero><sexe>F</sexe><naissance>30-08-1896</naissance><visite date="2014-12-08"/>
+
+		<patient>
+			<nom>George</nom>
+			<prenom>Sand</prenom>
+			<numero>123456789233287</numero>
+			<sexe>F</sexe>
+			<naissance>30-08-1896</naissance>
+			<visite date="2014-12-08"/>
 		<adresse>
 			<etage>3</etage>
-			<numero>3</numero><rue>des violettes</rue>
+			<numero>3</numero>
+			<rue>des violettes</rue>
 			<ville>Grenoble</ville>
-			<codePostal/>
-		</adresse></patient>
-		<patient><nom>Dolly</nom><prenom>Prane</prenom><numero>163745278974086</numero><sexe>F</sexe><naissance>28-08-1996</naissance><visite date="2014-12-08"/><adresse><etage>2</etage><numero>2</numero><rue>rue du drugstore</rue><ville>Pharma</ville><codePostal></codePostal></adresse></patient></patients>
+			<codePostal>43799</codePostal>
+		</adresse>
+	</patient>
+
+		<patient><nom>Dolly</nom><prenom>Prane</prenom><numero>163745278974086</numero><sexe>F</sexe><naissance>28-08-1996</naissance><visite date="2014-12-08"/><adresse><etage>2</etage><numero>2</numero><rue>rue du drugstore</rue><ville>Pharma</ville><codePostal>324234</codePostal></adresse></patient><patient><nom>Unk</nom><prenom>Nown</prenom><numero>123456789233222</numero><sexe>Autre</sexe><naissance></naissance><visite date="2014-12-08"/><adresse><etage></etage><numero></numero><rue></rue><ville></ville><codePostal></codePostal></adresse></patient></patients>
 		
 </cabinet>

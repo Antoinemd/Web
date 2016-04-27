@@ -49,7 +49,7 @@
 						ng-pattern="/^[0-9]{15}$/" 
 						required>
 			</md-input-container>
-			<span class="nss">NSS composé de 15 chiffres</span>
+			<span class="nss">NSS doit être composé de 15 chiffres</span>
 			<div ng-message="pattern","required"></div>
 		</div>
 
@@ -87,7 +87,8 @@
 		</div>
 
 		<div>
-			<md-button class="md-raised md-primary" 
+			<md-button class="md-raised md-primary"
+						ng-disabled="AjouterPatient.$invalid" 
 						id="btAddPatient" 
 						ng-click="$ctrl.submitPatient()">Ajouter ce patient 
 			</md-button>  

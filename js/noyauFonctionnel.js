@@ -48,7 +48,7 @@ var ProxyNF = function($http) {
         // Traitement 
         patientsXML.forEach(function(patientXML){        
 
-            var tmp;            
+            // var tmp;        
             var pat =  {
                 name:       patientXML.querySelector("nom").textContent,
                 prenom:     patientXML.querySelector("prenom").textContent,
@@ -58,35 +58,15 @@ var ProxyNF = function($http) {
                 
 
                 adresse:    {
-                    // etage:  patientXML.querySelector("etage").textContent,
-                    // etage:  (tmp=(patientXML.querySelector("adresse>etage")) === null ? "n/a" : tmp),
-                    // numero: (tmp=(patientXML.querySelector("adresse>numero"))=== null ? "n/a" : tmp),
-                    // rue:    (tmp=(patientXML.querySelector("adresse>rue")) === null ? "n/a" : tmp),
-                    // ville:  (tmp=(patientXML.querySelector("adresse>ville")) === null ? "n/a" : tmp),
-                    // cp:     (tmp=(patientXML.querySelector("adresse>codePostal")) === null ? "n/a" : tmp)
+                    // etage:  (tmp=patientXML.querySelector("adresse>etage").textContent) !== null ? tmp : "n/a",
+                    // numero: (tmp=patientXML.querySelector("adresse>numero").textContent) !== null ? tmp : "n/a",
                     rue:    patientXML.querySelector("adresse>rue").textContent,
                     ville:  patientXML.querySelector("adresse>ville").textContent,
                     cp:     patientXML.querySelector("adresse>codePostal").textContent
                 },
                 // renseigne sur l'ID de infirmier qui s'occupe du patient, si null: le patient "n'appartient" à aucune infirmier: il n'a pas subi d'intervention !
                 inf:    patientXML.querySelector("visite").getAttribute("intervenant")
-
             };
-
-            
-
-
-            var patEtage = patientXML.querySelector("adresse[etage]");
-            var patNum = patientXML.querySelector("adresse[numero]");
-
-            // test si les champs etages,numéros sont vides
-            // if(patEtage===null){
-            //     patEtage = "n/a";
-            // }
-            
-            // if(patNum===null){
-            //     patNum = "n/a";
-            // }
 
             var numIntervenant = patientXML.querySelector("visite");
 
@@ -105,12 +85,8 @@ var ProxyNF = function($http) {
            
         }); // fin de patientsXML
 
-        console.log(cabinetJS);
-
         return cabinetJS;
     }   // fin de processData
-
-
 
     // Ajoute dans le XML un nouveau patient
     this.addNewPatient = function(newPatient){

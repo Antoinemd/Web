@@ -48,7 +48,7 @@ module.exports = function(moduleAngular) {
 
 
         // Ajouter un nouveau patient
-        this.submitPatient = function() {
+        ctrl.submitPatient = function() {
             console.log(ctrl.newPatient);
             proxyNF.addNewPatient(ctrl.newPatient).then(function() {
                 ctrl.onValidation();
@@ -57,7 +57,7 @@ module.exports = function(moduleAngular) {
         }
 
         // Prends la valeur des id patients & infirmier passé par le ng-model a la méthode affecterInfirmier
-        this.assignerInfirmier = function() {
+        ctrl.assignerInfirmier = function() {
 
             if (ctrl.affecterInfirmier.infirmier !== "" && ctrl.affecterInfirmier.patient !== "") {
 
@@ -77,7 +77,7 @@ module.exports = function(moduleAngular) {
 
 
         // Pas implémenté sur le serveur
-        this.supprimerPatient = function(id) {
+        ctrl.supprimerPatient = function(id) {
             console.log("patient supprimé");
             // var identifiant = {'patientNumber': id}
             // var confirm = $mdDialog.confirm()
@@ -94,9 +94,9 @@ module.exports = function(moduleAngular) {
 
 
         // Remettre à "undefined" la valeur des champs du bloque assignation infirmier
-        this.clearValue = function() {
+        ctrl.clearValue = function() {
 
-            console.log("this.clearValue = function() {");
+            console.log("ctrl.clearValue = function() {");
 
             ctrl.affecterInfirmier.infirmier = undefined;
             ctrl.affecterInfirmier.patient = undefined;

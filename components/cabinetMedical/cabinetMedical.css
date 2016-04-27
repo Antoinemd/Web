@@ -1,16 +1,15 @@
 
-
 h1 {
-	font-family: Ubuntu Medium;
+	font-family: Roboto Medium;
 	color: #404040;
 }
 
 h2 > span {
-	font-family: Ubuntu Medium;
+	font-family: Roboto Medium;
 }
 
 div {
-	font-family: Ubuntu;
+	font-family: Roboto;
 }
 
 
@@ -20,9 +19,9 @@ div {
 
 .titre{
 	color: grey;
-	font-style: italic;
-/*	text-align: center;
-*/	font-family: Ubuntu Mono;
+	font-style: bold,italic;
+	/*text-align: center;*/
+	font-family: Roboto;
 
 }
 

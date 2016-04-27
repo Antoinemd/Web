@@ -1,11 +1,3 @@
-<span>
-    <div label="$ctrl.titre">
-
-        {{titre}}
-
-    </div>
-</span>
-
 <md-toolbar>
     <div class="md-toolbar-tools">
         <h2>
@@ -14,36 +6,53 @@
         <span flex></span>
     </div>
 </md-toolbar>
-        <md-content class="md-padding","demo-tab","tab-content">
-          <md-tabs md-selected="selectedIndex" md-border-bottom>
 
-                <md-tab ng-repeat="inf in $ctrl.data.infirmiers" ng-disabled="tab.disabled"
-                    label=" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}">
+<md-content class="md-padding","demo-tab","tab-content">
+    <md-tabs md-selected="selectedIndex" md-border-bottom>
+        <md-tab ng-repeat="inf in $ctrl.data.infirmiers" ng-disabled="tab.disabled"
+                label=" {{inf.idInfirmier}} {{inf.prenom}} {{inf.name | uppercase}}">
+            <md-tab-body>                        
+                <table layout-fill>
+                    <thead >
+                        <tr>
+                            <th class="titre" > Prénom </th>
+                            <th class="titre" > Nom </th>
+                            <th class="titre" > Sexe </th>
+                            <th class="titre" > Date de naissance</th>
+                            <th class="titre" > ID_Patient </th>
+                            <th class="titre" style="min-width: 30%"> Adresse</th>
+                        </tr>
+                    </thead>
 
-                    <md-tab-body>                        
-                        <div layout="column" layout-wrap >        
-                            <div layout="row" layout-align="space-between center" layout-wrap>
-                                <div flex class="titre" >Prénom</div>
-                                <div flex class="titre" >Nom</div>
-                                <div flex class="titre" >Sexe</div>
-                                <div flex class="titre" >Date de naissance</div>
-                                <div flex class="titre" >ID_Patient</div>
+                    <tbody ng-init="btn=false; adr=false">
+                    <tr ng-repeat="patient in inf.patients" class="md-2-lines"
+                        ng-mouseenter="btn=true" ng-mouseleave="btn=false" >
+                        <td flex>{{patient.prenom}} </td>
+                        <td flex>{{patient.name}}</td>
+                        <td flex>{{patient.sexe}} </td>
+                        <td flex>{{patient.naiss}} </td>
+                        <td flex>{{patient.id}} </td>
+                        <td >
+                            <div layout="row">
+                                <!-- Affihage buggé sur chrome mais pas Firefox -->
+                                <div>
+                                <md-button class="md-raised md-primary btn" ng-show="btn"
+                                    ng-mouseenter="adr=true" ng-mouseleave="adr=false"> Afficher</md-button>
+                                </div>
+                                <div ng-show="adr">
+                                    <!--étage: {{patient.adresse.etage}} <br/> 
+                                    N°: {{patient.adresse.numero}} <br/> -->
+                                    Rue:    {{patient.adresse.rue}} <br/> 
+                                    Ville:  {{patient.adresse.ville}}<br/> 
+                                    CP:     {{patient.adresse.cp}}<br/>
+                                </div>
                             </div>
-
-                            <div layout="row" layout-align="space-around center" layout-wrap ng-repeat="patient in inf.patients">
-                                <md-list-item class="md-2-line">
-                                    <div flex>{{patient.prenom}}</div>
-                                    <div flex>{{patient.name}}  </div>
-                                    <div flex>{{patient.sexe}}  </div>
-                                    <div flex>{{patient.naiss}} </div>
-                                    <div flex>{{patient.id}}    </div>                                   
-                                    <md-divider ng-if="!$last"></md-divider>    
-                                </md-list-item>
-                            </div>
-                        </div>
-                    </md-tab-body>
-                </md-tab>
-          </md-tabs>
-      </md-content>
-</section>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</md-content>
 

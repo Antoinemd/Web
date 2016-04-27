@@ -1,6 +1,5 @@
 // Template HTML
 var template = require( "./infirmier.html" );
-require( "./infirmier.css" );
 
 // Définition du composant
 module.exports = function(moduleAngular) {
