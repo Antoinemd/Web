@@ -1,0 +1,8 @@
+ 
+# Ignorer les objets et les archives *.[oa]
+*.[a]
+node_modules
+NodeJsWebApplication
+/dist
+/dev
+/
